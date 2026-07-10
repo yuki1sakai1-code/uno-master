@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="neon-tokyo">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNO 2.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/themes.css">
+</head>
+<body>
+  <div class="theme-bg" aria-hidden="true"></div>
+  <!-- Title Screen -->
+  <div id="title-screen" class="screen active">
+    <div class="title-content">
+      <h1 class="game-title">UNO 2.0</h1>
+      <p class="tagline">世界で一番馬が好き</p>
+      <button id="start-btn" class="start-btn">
+        <span class="play-icon">▶</span>
+        GAME START
+      </button>
+    </div>
+  </div>
+
+  <!-- Game Screen -->
+  <div id="game-screen" class="screen">
+    <div class="game-hud">
+      <div id="message-bar" class="message-bar"></div>
+    </div>
+
+    <!-- Turn direction indicator -->
+    <div class="turn-ring" aria-hidden="true">
+      <svg viewBox="0 0 200 200" class="turn-arrow">
+        <path d="M100 20 A80 80 0 1 1 60 170" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="3"/>
+        <polygon points="55,175 45,160 65,165" fill="rgba(255,255,255,0.06)"/>
+      </svg>
+    </div>
+
+    <!-- Opponents -->
+    <div class="opponent opponent-left" data-player="1">
+      <div class="opponent-avatar">
+        <img class="avatar-img" src="assets/avatars/jockey-a.png" alt="プレイヤーA">
+      </div>
+      <div class="opponent-name">プレイヤーA</div>
+      <div class="card-bar" id="bar-1"></div>
+    </div>
+
+    <div class="opponent opponent-top" data-player="2">
+      <div class="opponent-avatar">
+        <img class="avatar-img" src="assets/avatars/jockey-b.png" alt="プレイヤーB">
+      </div>
+      <div class="opponent-name">プレイヤーB</div>
+      <div class="card-bar" id="bar-2"></div>
+    </div>
+
+    <div class="opponent opponent-right" data-player="3">
+      <div class="opponent-avatar">
+        <img class="avatar-img" src="assets/avatars/jockey-c.png" alt="プレイヤーC">
+      </div>
+      <div class="opponent-name">プレイヤーC</div>
+      <div class="card-bar" id="bar-3"></div>
+    </div>
+
+    <!-- Center play area -->
+    <div class="play-area">
+      <div class="deck-area">
+        <button id="draw-pile" class="card card-back" title="カードを引く">
+          <div class="card-back-pattern" aria-hidden="true"></div>
+          <span class="uno-logo">UNO</span>
+        </button>
+        <span id="deck-count" class="deck-count">0</span>
+      </div>
+      <div id="discard-pile" class="discard-area"></div>
+    </div>
+
+    <!-- Player hand -->
+    <div class="player-area">
+      <div class="player-label">あなた</div>
+      <div id="player-hand" class="player-hand"></div>
+      <div class="player-actions">
+        <button id="uno-btn" class="action-btn uno-call" disabled>UNO!</button>
+        <button id="pass-btn" class="action-btn" disabled>パス</button>
+      </div>
+    </div>
+
+    <!-- Color picker modal -->
+    <div id="color-modal" class="modal hidden">
+      <div class="modal-content">
+        <p>色を選んでください</p>
+        <div class="color-picker">
+          <button class="color-btn red" data-color="red"></button>
+          <button class="color-btn green" data-color="green"></button>
+          <button class="color-btn blue" data-color="blue"></button>
+          <button class="color-btn yellow" data-color="yellow"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Special card FX layer -->
+    <div id="fx-layer" class="fx-layer" aria-hidden="true"></div>
+
+    <!-- Result modal -->
+    <div id="result-modal" class="modal hidden">
+      <div class="modal-content result-content">
+        <h2 id="result-title"></h2>
+        <p id="result-message"></p>
+        <button id="restart-btn" class="start-btn small">
+          <span class="play-icon">▶</span>
+          もう一度
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Theme Menu -->
+  <aside id="theme-menu" class="theme-menu" aria-label="デザインプレビュー">
+    <div class="theme-menu-label">DESIGN PREVIEW MODE</div>
+    <nav class="theme-list">
+      <button class="theme-btn active" data-theme="neon-tokyo">
+        <span class="theme-icon" aria-hidden="true"></span>
+        Neon Tokyo
+      </button>
+      <button class="theme-btn" data-theme="kyoto-zen">
+        <span class="theme-icon" aria-hidden="true"></span>
+        Kyoto Zen
+      </button>
+      <button class="theme-btn" data-theme="akiba-98">
+        <span class="theme-icon" aria-hidden="true"></span>
+        Akiba '98
+      </button>
+      <button class="theme-btn" data-theme="shimokita-lofi">
+        <span class="theme-icon" aria-hidden="true"></span>
+        Shimokita Lo-Fi
+      </button>
+      <button class="theme-btn" data-theme="roppongi-void">
+        <span class="theme-icon" aria-hidden="true"></span>
+        Roppongi Void
+      </button>
+    </nav>
+  </aside>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+/* ============================================================
+   UNO 2.0 — Theme Design System
+   ============================================================ */
+
+.theme-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: background 0.6s ease;
+}
+
+.theme-bg::before,
+.theme-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ----- NEON TOKYO ----- */
+:root,
+[data-theme="neon-tokyo"] {
+  --bg: #030208;
+  --bg-game: #06041a;
+  --red: #ff2d55;
+  --green: #30d158;
+  --blue: #5e5ce6;
+  --yellow: #ffd60a;
+  --purple: #bf5af2;
+  --pink: #ff375f;
+  --card-radius: 14px;
+  --card-inset: 6px;
+  --card-border: 2px solid rgba(255, 255, 255, 0.5);
+  --card-shadow: 0 0 20px rgba(191, 90, 242, 0.25), 0 8px 24px rgba(0, 0, 0, 0.6);
+  --card-oval-opacity: 0.22;
+  --card-oval-border: 2px solid rgba(255, 255, 255, 0.7);
+  --card-text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+  --card-shine: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 45%);
+  --card-back-bg: #0a0018;
+  --card-back-border: rgba(191, 90, 242, 0.6);
+  --card-text-dark: #111;
+  --title-gradient: linear-gradient(160deg, #bf5af2 0%, #ff375f 45%, #5ac8fa 100%);
+  --title-glow: drop-shadow(0 0 40px rgba(191, 90, 242, 0.6)) drop-shadow(0 0 80px rgba(255, 55, 95, 0.3));
+  --active-ring: #ffd60a;
+  --modal-bg: rgba(10, 0, 24, 0.95);
+}
+
+[data-theme="neon-tokyo"] .theme-bg {
+  background:
+    radial-gradient(ellipse 100% 60% at 50% 110%, rgba(255, 55, 95, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 0% 0%, rgba(94, 92, 230, 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 100% 20%, rgba(191, 90, 242, 0.15) 0%, transparent 45%),
+    linear-gradient(175deg, #030208 0%, #0a0420 40%, #06041a 100%);
+}
+
+[data-theme="neon-tokyo"] .theme-bg::before {
+  background-image:
+    linear-gradient(rgba(191, 90, 242, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(90, 200, 250, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 10%, transparent 75%);
+  animation: neonGridPulse 6s ease-in-out infinite;
+}
+
+[data-theme="neon-tokyo"] .theme-bg::after {
+  background:
+    radial-gradient(circle 3px at 15% 25%, rgba(255, 55, 95, 0.9) 0%, transparent 100%),
+    radial-gradient(circle 2px at 85% 15%, rgba(90, 200, 250, 0.8) 0%, transparent 100%),
+    radial-gradient(circle 2px at 70% 75%, rgba(191, 90, 242, 0.7) 0%, transparent 100%),
+    radial-gradient(circle 3px at 25% 80%, rgba(255, 214, 10, 0.6) 0%, transparent 100%);
+  animation: neonBokeh 8s ease-in-out infinite alternate;
+}
+
+[data-theme="neon-tokyo"] .card.red    { box-shadow: var(--card-shadow), 0 0 16px rgba(255, 45, 85, 0.4); }
+[data-theme="neon-tokyo"] .card.green  { box-shadow: var(--card-shadow), 0 0 16px rgba(48, 209, 88, 0.35); }
+[data-theme="neon-tokyo"] .card.blue   { box-shadow: var(--card-shadow), 0 0 16px rgba(94, 92, 230, 0.4); }
+[data-theme="neon-tokyo"] .card.yellow { box-shadow: var(--card-shadow), 0 0 16px rgba(255, 214, 10, 0.35); color: #1a1000; }
+
+[data-theme="neon-tokyo"] .card-back .card-back-pattern {
+  background:
+    repeating-linear-gradient(45deg, rgba(191,90,242,0.15) 0px, rgba(191,90,242,0.15) 2px, transparent 2px, transparent 10px),
+    repeating-linear-gradient(-45deg, rgba(90,200,250,0.1) 0px, rgba(90,200,250,0.1) 2px, transparent 2px, transparent 10px);
+}
+
+[data-theme="neon-tokyo"] .card-back .uno-logo {
+  background: linear-gradient(135deg, #bf5af2, #ff375f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(191, 90, 242, 0.8));
+}
+
+/* ----- KYOTO ZEN ----- */
+[data-theme="kyoto-zen"] {
+  --bg: #1c1a16;
+  --bg-game: #242018;
+  --red: #8c3b3b;
+  --green: #4a6b52;
+  --blue: #3d5268;
+  --yellow: #b8973a;
+  --purple: #7a6e5e;
+  --pink: #9a8070;
+  --card-radius: 3px;
+  --card-inset: 0px;
+  --card-border: 1px solid rgba(40, 32, 24, 0.8);
+  --card-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+  --card-surface-bg: transparent;
+  --card-oval-opacity: 0.2;
+  --card-oval-border: 1.5px solid rgba(255, 248, 230, 0.5);
+  --card-text-shadow: none;
+  --card-shine: none;
+  --card-back-bg: #e8dcc8;
+  --card-back-border: rgba(80, 60, 40, 0.5);
+  --card-text-dark: #2a2018;
+  --title-gradient: linear-gradient(160deg, #d4b86a 0%, #8a7a62 50%, #5a5048 100%);
+  --title-glow: drop-shadow(0 2px 8px rgba(184, 151, 58, 0.3));
+  --active-ring: #b8973a;
+  --modal-bg: #2a2620;
+}
+
+[data-theme="kyoto-zen"] .theme-bg {
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 55%, rgba(184, 151, 58, 0.06) 0%, transparent 60%),
+    linear-gradient(180deg, #1c1a16 0%, #242018 50%, #1e1c18 100%);
+}
+
+[data-theme="kyoto-zen"] .theme-bg::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='28' fill='none' stroke='rgba(184,151,58,0.04)' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
+}
+
+[data-theme="kyoto-zen"] .theme-bg::after {
+  background: radial-gradient(circle 120px at 50% 52%, rgba(184, 151, 58, 0.05) 0%, transparent 70%);
+}
+
+[data-theme="kyoto-zen"] .card:not(.card-back) {
+  box-shadow: inset 0 1px 0 rgba(255, 248, 230, 0.2), var(--card-shadow);
+}
+
+[data-theme="kyoto-zen"] .card.red,
+[data-theme="kyoto-zen"] .card.green,
+[data-theme="kyoto-zen"] .card.blue,
+[data-theme="kyoto-zen"] .card.wild { color: #faf6ee; }
+
+[data-theme="kyoto-zen"] .card-surface::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.02) 3px, rgba(0,0,0,0.02) 4px);
+  pointer-events: none;
+}
+
+[data-theme="kyoto-zen"] .card-back .card-back-pattern {
+  background: repeating-linear-gradient(90deg, rgba(80,60,40,0.06) 0px, transparent 1px, transparent 8px);
+}
+
+[data-theme="kyoto-zen"] .card-back .uno-logo {
+  color: #4a3828;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+}
+
+/* ----- AKIBA '98 ----- */
+[data-theme="akiba-98"] {
+  --bg: #000080;
+  --bg-game: #000060;
+  --red: #ff0044;
+  --green: #00ee66;
+  --blue: #00aaff;
+  --yellow: #ffdd00;
+  --purple: #cc00ff;
+  --pink: #ff2288;
+  --card-radius: 4px;
+  --card-inset: 4px;
+  --card-border: 3px solid #000;
+  --card-shadow: 4px 4px 0 #000;
+  --card-surface-bg: rgba(255, 255, 255, 0.12);
+  --card-oval-opacity: 0.35;
+  --card-oval-border: 2px solid rgba(0, 0, 0, 0.5);
+  --card-text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+  --card-shine: none;
+  --card-back-bg: #cc00cc;
+  --card-back-border: #000;
+  --card-text-dark: #000;
+  --title-gradient: linear-gradient(180deg, #00aaff 0%, #ff0044 40%, #ffdd00 80%);
+  --title-glow: drop-shadow(3px 3px 0 #000) drop-shadow(-1px -1px 0 #fff);
+  --active-ring: #ffdd00;
+  --modal-bg: #0000aa;
+}
+
+[data-theme="akiba-98"] .theme-bg {
+  background: linear-gradient(180deg, #0000a0 0%, #000060 60%, #000040 100%);
+}
+
+[data-theme="akiba-98"] .theme-bg::before {
+  background-image: radial-gradient(white 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.08;
+}
+
+[data-theme="akiba-98"] .theme-bg::after {
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
+  opacity: 0.5;
+}
+
+[data-theme="akiba-98"] .card {
+  border: var(--card-border);
+  box-shadow: var(--card-shadow);
+}
+
+[data-theme="akiba-98"] .card-surface {
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 1px;
+}
+
+[data-theme="akiba-98"] .card.yellow { color: #000; }
+[data-theme="akiba-98"] .card.red,
+[data-theme="akiba-98"] .card.green,
+[data-theme="akiba-98"] .card.blue,
+[data-theme="akiba-98"] .card.wild { color: #fff; }
+
+[data-theme="akiba-98"] .card.playable:hover,
+[data-theme="akiba-98"] .card.selected {
+  box-shadow: 6px 6px 0 #000, 0 0 0 2px #ffd700 !important;
+}
+
+[data-theme="akiba-98"] .card-back .card-back-pattern {
+  background: repeating-conic-gradient(#ff00ff 0deg 90deg, #9900cc 90deg 180deg, #ff00ff 180deg 270deg, #660099 270deg 360deg);
+  background-size: 16px 16px;
+  opacity: 0.6;
+}
+
+[data-theme="akiba-98"] .card-back .uno-logo {
+  color: #ffff00;
+  text-shadow: 2px 2px 0 #000;
+}
+
+[data-theme="akiba-98"] .card.wild {
+  background: linear-gradient(135deg, #ff0044, #00ee66, #00aaff, #ffdd00) !important;
+}
+
+/* ----- SHIMOKITA LO-FI ----- */
+[data-theme="shimokita-lofi"] {
+  --bg: #1a1428;
+  --bg-game: #120e1e;
+  --red: #c4707a;
+  --green: #7a9e72;
+  --blue: #6a82a8;
+  --yellow: #d4a060;
+  --purple: #9a7ab8;
+  --pink: #c08090;
+  --card-radius: 20px;
+  --card-inset: 5px;
+  --card-border: 2px solid rgba(255, 240, 220, 0.15);
+  --card-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+  --card-surface-bg: rgba(255, 248, 240, 0.06);
+  --card-oval-opacity: 0.18;
+  --card-oval-border: 2px solid rgba(255, 240, 220, 0.35);
+  --card-text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  --card-shine: linear-gradient(160deg, rgba(255,240,220,0.12) 0%, transparent 50%);
+  --card-back-bg: #1e1830;
+  --card-back-border: rgba(212, 160, 96, 0.25);
+  --card-text-dark: #2a1820;
+  --title-gradient: linear-gradient(160deg, #f0c080 0%, #c080a0 50%, #8090c0 100%);
+  --title-glow: drop-shadow(0 0 30px rgba(212, 160, 96, 0.35));
+  --active-ring: #d4a060;
+  --modal-bg: rgba(26, 20, 40, 0.95);
+}
+
+[data-theme="shimokita-lofi"] .theme-bg {
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 100%, rgba(212, 140, 80, 0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 10% 20%, rgba(154, 122, 184, 0.15) 0%, transparent 50%),
+    linear-gradient(200deg, #1a1428 0%, #120e1e 100%);
+}
+
+[data-theme="shimokita-lofi"] .theme-bg::after {
+  background: radial-gradient(ellipse 40% 30% at 50% 45%, rgba(255, 200, 140, 0.06) 0%, transparent 70%);
+  animation: lofiSunset 12s ease-in-out infinite alternate;
+}
+
+[data-theme="shimokita-lofi"] .card.red,
+[data-theme="shimokita-lofi"] .card.green,
+[data-theme="shimokita-lofi"] .card.blue,
+[data-theme="shimokita-lofi"] .card.wild { color: #faf4ee; }
+
+[data-theme="shimokita-lofi"] .card-back .card-back-pattern {
+  background: repeating-radial-gradient(circle at 50% 50%, transparent 0px, transparent 8px, rgba(255,240,220,0.03) 8px, rgba(255,240,220,0.03) 9px);
+}
+
+[data-theme="shimokita-lofi"] .card-back .uno-logo {
+  color: rgba(240, 192, 128, 0.75);
+  font-weight: 300;
+  letter-spacing: 0.3em;
+}
+
+/* ----- ROPPONGI VOID ----- */
+[data-theme="roppongi-void"] {
+  --bg: #000000;
+  --bg-game: #000000;
+  --red: #e8192c;
+  --green: #00c87a;
+  --blue: #1a7fff;
+  --yellow: #f5e642;
+  --purple: #ffffff;
+  --pink: #888888;
+  --card-radius: 1px;
+  --card-inset: 0px;
+  --card-border: 2px solid rgba(255, 255, 255, 0.85);
+  --card-shadow: none;
+  --card-surface-bg: transparent;
+  --card-oval-opacity: 0;
+  --card-text-shadow: none;
+  --card-shine: none;
+  --card-back-bg: #000;
+  --card-back-border: rgba(255, 255, 255, 0.7);
+  --card-text-dark: #000;
+  --title-gradient: linear-gradient(180deg, #ffffff 0%, #444444 100%);
+  --title-glow: none;
+  --active-ring: #ffffff;
+  --modal-bg: #080808;
+}
+
+[data-theme="roppongi-void"] .theme-bg { background: #000; }
+
+[data-theme="roppongi-void"] .theme-bg::before {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 0%, transparent 80%);
+}
+
+[data-theme="roppongi-void"] .theme-bg::after {
+  background: radial-gradient(ellipse 50% 35% at 50% 0%, rgba(255,255,255,0.04) 0%, transparent 60%);
+}
+
+[data-theme="roppongi-void"] .card {
+  border: var(--card-border);
+  box-shadow: none;
+  background: #000 !important;
+}
+
+[data-theme="roppongi-void"] .card.red    { border-color: var(--red);    color: var(--red); }
+[data-theme="roppongi-void"] .card.green  { border-color: var(--green);  color: var(--green); }
+[data-theme="roppongi-void"] .card.blue   { border-color: var(--blue);   color: var(--blue); }
+[data-theme="roppongi-void"] .card.yellow { border-color: var(--yellow); color: var(--yellow); }
+[data-theme="roppongi-void"] .card.wild   { border-color: #fff; color: #fff; }
+
+[data-theme="roppongi-void"] .card-oval { display: none; }
+
+[data-theme="roppongi-void"] .card-value {
+  font-weight: 400;
+  font-size: 2.8rem;
+}
+
+[data-theme="roppongi-void"] .card-back .card-back-pattern {
+  background:
+    linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.08) 49%, rgba(255,255,255,0.08) 51%, transparent 52%);
+  background-size: 20px 20px;
+}
+
+[data-theme="roppongi-void"] .card-back .uno-logo {
+  color: #fff;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  font-size: 1rem;
+}
+
+[data-theme="roppongi-void"] .turn-ring { opacity: 0.15; }
+
+/* ----- Wild card surfaces ----- */
+.card.wild .card-surface {
+  background: linear-gradient(135deg, rgba(255,45,85,0.3), rgba(48,209,88,0.3), rgba(94,92,230,0.3), rgba(255,214,10,0.3));
+}
+
+[data-theme="kyoto-zen"] .card.wild .card-surface {
+  background: linear-gradient(135deg, rgba(140,59,59,0.4), rgba(74,107,82,0.4), rgba(61,82,104,0.4), rgba(184,151,58,0.4));
+}
+
+[data-theme="shimokita-lofi"] .card.wild .card-surface {
+  background: linear-gradient(145deg, rgba(196,112,122,0.35), rgba(122,158,114,0.35), rgba(106,130,168,0.35), rgba(212,160,96,0.35));
+}
+
+[data-theme="roppongi-void"] .card.wild .card-surface { background: transparent; }
+
+@keyframes neonGridPulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+@keyframes neonBokeh {
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.05) translateY(-8px); }
+}
+
+@keyframes lofiSunset {
+  0%   { opacity: 0.5; }
+  100% { opacity: 0.9; }
+}
