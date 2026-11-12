@@ -9,7 +9,7 @@ export const THEMES = [
 const STORAGE_KEY = 'foth-theme';
 
 export function getSavedTheme() {
-  return localStorage.getItem(STORAGE_KEY) || 'neon-tokyo';
+  return localStorage.getItem(STORAGE_KEY) || 'akiba-98';
 }
 
 export function applyTheme(themeId) {
