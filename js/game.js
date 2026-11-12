@@ -20,6 +20,9 @@ export class Game {
     this.onColorPick = null;
     this.onGameOver = null;
     this.onCardPlayed = null;
+    this.onTurnStart = null;
+    this.onUnoCalled = null;
+    this.onGameStart = null;
   }
 
   start() {
@@ -51,6 +54,7 @@ export class Game {
 
     this.emitUpdate();
     this.emitMessage('ゲーム開始！');
+    this.onGameStart?.();
     this.runTurn();
   }
 
@@ -82,11 +86,13 @@ export class Game {
     if (this.currentPlayer === 0) {
       this.phase = 'human';
       this.emitUpdate();
+      this.onTurnStart?.(0);
       return;
     }
 
     this.phase = 'ai';
     this.emitUpdate();
+    this.onTurnStart?.(this.currentPlayer);
     await delay(800 + Math.random() * 600);
     this.aiTurn(this.currentPlayer);
   }
@@ -248,6 +254,7 @@ export class Game {
 
     if (hand.length === 1 && playerIndex !== 0) {
       this.emitMessage(`${name} — UNO!`);
+      this.onUnoCalled?.(playerIndex);
     }
 
     this.applyCardEffect(card);
@@ -310,6 +317,7 @@ export class Game {
     if (this.players[0].length === 1) {
       this.unoCalled[0] = true;
       this.emitMessage('UNO!', true);
+      this.onUnoCalled?.(0);
     }
   }
 

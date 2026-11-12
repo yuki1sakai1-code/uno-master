@@ -2,6 +2,14 @@ import { Game } from './game.js';
 import { canPlay, cardLabel, PLAYER_NAMES } from './cards.js';
 import { initThemes } from './themes.js';
 import { playCardEffect } from './effects.js';
+import {
+  triggerAiTurnThought,
+  triggerGameStartThoughts,
+  triggerUnoReaction,
+  triggerGameOverThoughts,
+  triggerHumanThinkingThought,
+  hideAllThoughts
+} from './thoughts.js';
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
@@ -43,19 +51,51 @@ $$('.color-btn').forEach(btn => {
   });
 });
 
+let humanThinkingTimer = null;
+
 game.onUpdate = render;
 game.onMessage = showMessage;
 game.onColorPick = () => {
   colorModal.classList.remove('hidden');
 };
 game.onCardPlayed = (card) => playCardEffect(card);
+
+game.onGameStart = () => {
+  hideAllThoughts();
+  triggerGameStartThoughts();
+};
+
+game.onTurnStart = (playerIndex) => {
+  if (humanThinkingTimer) {
+    clearTimeout(humanThinkingTimer);
+    humanThinkingTimer = null;
+  }
+
+  if (playerIndex === 0) {
+    // プレイヤー（あなた）が4秒以上長考したら、AIがランダムにつぶやく
+    humanThinkingTimer = setTimeout(() => {
+      if (game.phase === 'human' && game.winner === null) {
+        triggerHumanThinkingThought();
+      }
+    }, 4000);
+  } else {
+    triggerAiTurnThought(game, playerIndex);
+  }
+};
+
+game.onUnoCalled = (playerIndex) => {
+  triggerUnoReaction(playerIndex);
+};
+
 game.onGameOver = (winnerIndex) => {
+  if (humanThinkingTimer) clearTimeout(humanThinkingTimer);
+  triggerGameOverThoughts(winnerIndex);
   const won = winnerIndex === 0;
   resultTitle.textContent = won ? 'YOU WIN!' : 'GAME OVER';
   resultMessage.textContent = won
     ? 'おめでとう！静かな夜、最高の勝利。'
     : `${PLAYER_NAMES[winnerIndex]} の勝利… 次はリベンジ。`;
-  setTimeout(() => resultModal.classList.remove('hidden'), 600);
+  setTimeout(() => resultModal.classList.remove('hidden'), 900);
 };
 
 function startGame() {
@@ -63,6 +103,8 @@ function startGame() {
   gameScreen.classList.add('active');
   selectedIndex = -1;
   lastTopCardKey = null;
+  if (humanThinkingTimer) clearTimeout(humanThinkingTimer);
+  hideAllThoughts();
   game.start();
 }
 

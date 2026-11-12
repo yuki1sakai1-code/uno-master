@@ -200,6 +200,21 @@
   box-shadow: 4px 4px 0 #000, 0 0 16px rgba(0, 238, 102, 0.7);
 }
 
+[data-theme="akiba-98"] .thought-bubble {
+  border-radius: 4px;
+  border: 2px solid #ffdd00;
+  box-shadow: 3px 3px 0 #000;
+  background: #000055;
+  color: #ffdd00;
+}
+
+[data-theme="akiba-98"] .thought-bubble::before,
+[data-theme="akiba-98"] .thought-bubble::after {
+  border-radius: 0;
+  border: 1.5px solid #ffdd00;
+  background: #000055;
+}
+
 [data-theme="akiba-98"] .theme-bg {
   background:
     radial-gradient(ellipse 65% 55% at 50% 50%, rgba(0, 170, 255, 0.2) 0%, transparent 70%),

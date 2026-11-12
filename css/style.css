@@ -252,6 +252,117 @@ html, body {
   background: rgba(255, 255, 255, 0.55);
 }
 
+/* ===== Thought Bubbles ===== */
+.thought-bubble {
+  position: absolute;
+  opacity: 0;
+  transform: scale(0.6);
+  pointer-events: none;
+  z-index: 35;
+  background: var(--thought-bg, rgba(14, 12, 34, 0.92));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid var(--thought-border, rgba(255, 255, 255, 0.22));
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 12px var(--thought-glow, rgba(255, 255, 255, 0.08));
+  border-radius: 14px;
+  padding: 6px 12px;
+  white-space: nowrap;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--thought-text, #ffffff);
+  line-height: 1.35;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.thought-bubble.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.thought-icon {
+  font-size: 0.8rem;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+.thought-text {
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* 思考の泡 (thought dots) */
+.thought-bubble::before,
+.thought-bubble::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: inherit;
+  border: inherit;
+  box-shadow: inherit;
+  pointer-events: none;
+}
+
+/* プレイヤーA (左側) の吹き出し: アバター右上 */
+.opponent-left .thought-bubble {
+  left: calc(100% + 10px);
+  top: -6px;
+  transform-origin: bottom left;
+}
+.opponent-left .thought-bubble::before {
+  width: 7px;
+  height: 7px;
+  left: -8px;
+  bottom: 8px;
+}
+.opponent-left .thought-bubble::after {
+  width: 4px;
+  height: 4px;
+  left: -13px;
+  bottom: 3px;
+}
+
+/* プレイヤーB (上部) の吹き出し: アバター右側 */
+.opponent-top .thought-bubble {
+  left: calc(100% + 10px);
+  top: 6px;
+  transform-origin: top left;
+}
+.opponent-top .thought-bubble::before {
+  width: 7px;
+  height: 7px;
+  left: -8px;
+  top: 10px;
+}
+.opponent-top .thought-bubble::after {
+  width: 4px;
+  height: 4px;
+  left: -13px;
+  top: 6px;
+}
+
+/* プレイヤーC (右側) の吹き出し: アバター左上 */
+.opponent-right .thought-bubble {
+  right: calc(100% + 10px);
+  top: -6px;
+  transform-origin: bottom right;
+}
+.opponent-right .thought-bubble::before {
+  width: 7px;
+  height: 7px;
+  right: -8px;
+  bottom: 8px;
+}
+.opponent-right .thought-bubble::after {
+  width: 4px;
+  height: 4px;
+  right: -13px;
+  bottom: 3px;
+}
+
 /* ===== Play Area ===== */
 .play-area {
   position: absolute;
@@ -1082,5 +1193,29 @@ html, body {
     padding: 6px 10px;
     font-size: 0.72rem;
     border-radius: 8px;
+  }
+
+  /* モバイル表示での吹き出し調整 */
+  .thought-bubble {
+    font-size: 0.65rem;
+    padding: 4px 8px;
+    border-radius: 10px;
+    max-width: 120px;
+    white-space: normal;
+  }
+  .thought-icon {
+    font-size: 0.7rem;
+  }
+  .opponent-left .thought-bubble {
+    left: calc(100% + 6px);
+    top: -4px;
+  }
+  .opponent-top .thought-bubble {
+    left: calc(100% + 6px);
+    top: 4px;
+  }
+  .opponent-right .thought-bubble {
+    right: calc(100% + 6px);
+    top: -4px;
   }
 }
