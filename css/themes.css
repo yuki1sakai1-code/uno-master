@@ -44,12 +44,6 @@
   --title-glow: drop-shadow(0 0 40px rgba(191, 90, 242, 0.6)) drop-shadow(0 0 80px rgba(255, 55, 95, 0.3));
   --active-ring: #ffd60a;
   --modal-bg: rgba(10, 0, 24, 0.95);
-  --field-bg: radial-gradient(ellipse at center, rgba(191, 90, 242, 0.08) 0%, rgba(0, 0, 0, 0.4) 100%);
-  --field-border: 1px solid rgba(191, 90, 242, 0.3);
-  --field-shadow: 0 0 30px rgba(191, 90, 242, 0.15), 0 16px 48px rgba(0, 0, 0, 0.6);
-  --field-radius: 24px;
-  --slot-border: rgba(191, 90, 242, 0.25);
-  --turn-color: rgba(191, 90, 242, 0.4);
 }
 
 [data-theme="neon-tokyo"] .theme-bg {
@@ -193,12 +187,6 @@
   --title-glow: drop-shadow(3px 3px 0 #000) drop-shadow(-1px -1px 0 #fff);
   --active-ring: #ffdd00;
   --modal-bg: #0000aa;
-  --field-bg: radial-gradient(ellipse at center, rgba(0, 170, 255, 0.16) 0%, rgba(0, 0, 70, 0.75) 100%);
-  --field-border: 2px solid #00aaff;
-  --field-shadow: 0 0 24px rgba(0, 170, 255, 0.35), 4px 4px 0 #000, inset 0 0 24px rgba(0, 0, 0, 0.6);
-  --field-radius: 6px;
-  --slot-border: rgba(0, 170, 255, 0.35);
-  --turn-color: #00ee66;
 }
 
 [data-theme="akiba-98"] .opponent-avatar {
@@ -212,34 +200,32 @@
   box-shadow: 4px 4px 0 #000, 0 0 16px rgba(0, 238, 102, 0.7);
 }
 
-[data-theme="akiba-98"] .play-area::after {
-  content: '▼ BATTLE FIELD ▼';
-  position: absolute;
-  top: 6px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.6rem;
-  letter-spacing: 2px;
-  color: #00aaff;
-  text-shadow: 0 0 6px #00aaff;
-  font-weight: 700;
-  pointer-events: none;
-}
-
 [data-theme="akiba-98"] .theme-bg {
-  background: linear-gradient(180deg, #0000a0 0%, #000060 60%, #000040 100%);
+  background:
+    radial-gradient(ellipse 65% 55% at 50% 50%, rgba(0, 170, 255, 0.2) 0%, transparent 70%),
+    radial-gradient(circle 320px at 50% 48%, rgba(204, 0, 255, 0.14) 0%, transparent 75%),
+    radial-gradient(ellipse 80% 35% at 50% 100%, rgba(0, 238, 102, 0.12) 0%, transparent 60%),
+    linear-gradient(180deg, #010035 0%, #000065 40%, #000045 75%, #080026 100%);
 }
 
 [data-theme="akiba-98"] .theme-bg::before {
-  background-image: radial-gradient(white 1px, transparent 1px);
-  background-size: 32px 32px;
-  opacity: 0.08;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 220px, rgba(0, 170, 255, 0.12) 221px, transparent 223px),
+    radial-gradient(circle at 50% 50%, transparent 380px, rgba(0, 170, 255, 0.08) 381px, transparent 383px),
+    radial-gradient(circle at 50% 50%, transparent 540px, rgba(204, 0, 255, 0.06) 541px, transparent 543px),
+    linear-gradient(90deg, transparent calc(50% - 1px), rgba(0, 170, 255, 0.08) 50%, transparent calc(50% + 1px)),
+    linear-gradient(0deg, transparent calc(50% - 1px), rgba(0, 170, 255, 0.08) 50%, transparent calc(50% + 1px)),
+    radial-gradient(rgba(0, 238, 102, 0.22) 1.2px, transparent 1.2px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 36px 36px;
+  mask-image: radial-gradient(ellipse 90% 85% at 50% 50%, black 35%, transparent 85%);
+  opacity: 0.9;
 }
 
 [data-theme="akiba-98"] .theme-bg::after {
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
-  opacity: 0.5;
+  background:
+    repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0, 0, 0, 0.15) 2px, rgba(0, 0, 0, 0.15) 4px),
+    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 60%, rgba(0, 0, 25, 0.6) 100%);
+  opacity: 0.8;
 }
 
 [data-theme="akiba-98"] .card {

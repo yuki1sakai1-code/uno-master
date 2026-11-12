@@ -161,14 +161,11 @@ html, body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 360px;
-  height: 360px;
+  transform: translate(-50%, -55%);
+  width: 280px;
+  height: 280px;
   pointer-events: none;
-  z-index: 1;
-  color: var(--turn-color, rgba(255, 255, 255, 0.16));
-  filter: drop-shadow(0 0 6px currentColor);
-  transition: color 0.3s;
+  z-index: 0;
 }
 
 .turn-arrow {
@@ -257,43 +254,8 @@ html, body {
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
-  gap: 2.8rem;
+  gap: 2.5rem;
   z-index: 2;
-  padding: 24px 36px;
-}
-
-/* Field Table / Playmat */
-.play-area::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: var(--field-radius, 28px);
-  background: var(--field-bg, radial-gradient(ellipse at center, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.35) 100%));
-  border: var(--field-border, 1px solid rgba(255, 255, 255, 0.12));
-  box-shadow: var(--field-shadow, 0 16px 48px rgba(0, 0, 0, 0.4), inset 0 0 32px rgba(0, 0, 0, 0.3));
-  pointer-events: none;
-  z-index: -1;
-  transition: all 0.3s ease;
-}
-
-/* Slot outline for deck & discard */
-.deck-area::before,
-.discard-area::before {
-  content: '';
-  position: absolute;
-  width: 100px;
-  height: 146px;
-  border: 1.5px dashed var(--slot-border, rgba(255, 255, 255, 0.15));
-  border-radius: var(--card-radius, 12px);
-  pointer-events: none;
-  z-index: 0;
-}
-.deck-area::before {
-  top: 0;
-}
-.discard-area::before {
-  top: 0;
-  left: 0;
 }
 
 .deck-area {
