@@ -218,6 +218,12 @@ html, body {
   display: block;
 }
 
+/* プレイヤーCは元の画像がクローズアップのため、拡大せず初期サイズ・位置に戻す */
+.opponent-right .avatar-img {
+  transform: none;
+  object-position: center;
+}
+
 .opponent-name {
   font-size: 0.75rem;
   font-weight: 500;
