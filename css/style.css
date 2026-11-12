@@ -933,14 +933,35 @@ html, body {
 }
 
 /* ===== Responsive ===== */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   :root {
-    --card-w: 56px;
-    --card-h: 84px;
+    --card-w: 60px;
+    --card-h: 90px;
   }
 
-  .opponent-left  { left: 2%; }
-  .opponent-right { right: 2%; }
+  /* モバイルでは相手を上部〜中上部に再配置して中央カードとの重なりを防止 */
+  .opponent-top   { top: 5%; left: 50%; transform: translateX(-50%); }
+  .opponent-left  { top: 22%; left: 14px; transform: none; }
+  .opponent-right { top: 22%; right: 14px; transform: none; }
+
+  .opponent-avatar { width: 56px; height: 56px; }
+  .avatar-img { transform: scale(1.45); }
+  .opponent-name { font-size: 0.65rem; max-width: 76px; }
+
+  .play-area {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    gap: 1.5rem;
+  }
+
+  .turn-ring {
+    width: 220px;
+    height: 220px;
+  }
+
+  .player-hand .card { margin-left: -28px; }
+
   .theme-menu {
     top: auto;
     bottom: 12px;
@@ -963,8 +984,4 @@ html, body {
     padding: 8px 12px;
     font-size: 0.72rem;
   }
-  .opponent-avatar { width: 56px; height: 56px; }
-  .opponent-name { font-size: 0.6rem; max-width: 80px; }
-  .play-area { gap: 1.5rem; }
-  .player-hand .card { margin-left: -24px; }
 }
