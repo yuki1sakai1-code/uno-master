@@ -161,11 +161,14 @@ html, body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -55%);
-  width: 280px;
-  height: 280px;
+  transform: translate(-50%, -50%);
+  width: 360px;
+  height: 360px;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
+  color: var(--turn-color, rgba(255, 255, 255, 0.16));
+  filter: drop-shadow(0 0 6px currentColor);
+  transition: color 0.3s;
 }
 
 .turn-arrow {
@@ -179,48 +182,54 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   z-index: 5;
 }
 
 .opponent-left  { left: 5%;  top: 50%; transform: translateY(-50%); }
-.opponent-top   { top: 8%;   left: 50%; transform: translateX(-50%); }
+.opponent-top   { top: 7%;   left: 50%; transform: translateX(-50%); }
 .opponent-right { right: 180px; top: 50%; transform: translateY(-50%); }
 
 .opponent-avatar {
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.45);
+  border: 3px solid rgba(255, 255, 255, 0.22);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: box-shadow 0.3s, border-color 0.3s;
+  transition: box-shadow 0.3s, border-color 0.3s, transform 0.25s;
   overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
 }
 
 .opponent.active .opponent-avatar {
   border-color: var(--active-ring, var(--yellow));
   box-shadow: 0 0 20px color-mix(in srgb, var(--active-ring, var(--yellow)) 60%, transparent),
               0 0 40px color-mix(in srgb, var(--active-ring, var(--yellow)) 30%, transparent);
+  transform: scale(1.05);
 }
 
 .avatar-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 20%;
+  object-position: center 18%;
+  transform: scale(1.5);
+  transform-origin: center 20%;
   display: block;
 }
 
 .opponent-name {
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
   white-space: nowrap;
   max-width: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 .card-bar {
@@ -248,8 +257,43 @@ html, body {
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
-  gap: 2.5rem;
+  gap: 2.8rem;
   z-index: 2;
+  padding: 24px 36px;
+}
+
+/* Field Table / Playmat */
+.play-area::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--field-radius, 28px);
+  background: var(--field-bg, radial-gradient(ellipse at center, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.35) 100%));
+  border: var(--field-border, 1px solid rgba(255, 255, 255, 0.12));
+  box-shadow: var(--field-shadow, 0 16px 48px rgba(0, 0, 0, 0.4), inset 0 0 32px rgba(0, 0, 0, 0.3));
+  pointer-events: none;
+  z-index: -1;
+  transition: all 0.3s ease;
+}
+
+/* Slot outline for deck & discard */
+.deck-area::before,
+.discard-area::before {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 146px;
+  border: 1.5px dashed var(--slot-border, rgba(255, 255, 255, 0.15));
+  border-radius: var(--card-radius, 12px);
+  pointer-events: none;
+  z-index: 0;
+}
+.deck-area::before {
+  top: 0;
+}
+.discard-area::before {
+  top: 0;
+  left: 0;
 }
 
 .deck-area {
@@ -957,7 +1001,7 @@ html, body {
     padding: 8px 12px;
     font-size: 0.72rem;
   }
-  .opponent-avatar { width: 48px; height: 48px; }
+  .opponent-avatar { width: 56px; height: 56px; }
   .opponent-name { font-size: 0.6rem; max-width: 80px; }
   .play-area { gap: 1.5rem; }
   .player-hand .card { margin-left: -24px; }

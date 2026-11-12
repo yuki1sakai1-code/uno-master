@@ -44,6 +44,12 @@
   --title-glow: drop-shadow(0 0 40px rgba(191, 90, 242, 0.6)) drop-shadow(0 0 80px rgba(255, 55, 95, 0.3));
   --active-ring: #ffd60a;
   --modal-bg: rgba(10, 0, 24, 0.95);
+  --field-bg: radial-gradient(ellipse at center, rgba(191, 90, 242, 0.08) 0%, rgba(0, 0, 0, 0.4) 100%);
+  --field-border: 1px solid rgba(191, 90, 242, 0.3);
+  --field-shadow: 0 0 30px rgba(191, 90, 242, 0.15), 0 16px 48px rgba(0, 0, 0, 0.6);
+  --field-radius: 24px;
+  --slot-border: rgba(191, 90, 242, 0.25);
+  --turn-color: rgba(191, 90, 242, 0.4);
 }
 
 [data-theme="neon-tokyo"] .theme-bg {
@@ -187,6 +193,38 @@
   --title-glow: drop-shadow(3px 3px 0 #000) drop-shadow(-1px -1px 0 #fff);
   --active-ring: #ffdd00;
   --modal-bg: #0000aa;
+  --field-bg: radial-gradient(ellipse at center, rgba(0, 170, 255, 0.16) 0%, rgba(0, 0, 70, 0.75) 100%);
+  --field-border: 2px solid #00aaff;
+  --field-shadow: 0 0 24px rgba(0, 170, 255, 0.35), 4px 4px 0 #000, inset 0 0 24px rgba(0, 0, 0, 0.6);
+  --field-radius: 6px;
+  --slot-border: rgba(0, 170, 255, 0.35);
+  --turn-color: #00ee66;
+}
+
+[data-theme="akiba-98"] .opponent-avatar {
+  border: 3px solid #ffdd00;
+  box-shadow: 3px 3px 0 #000, 0 0 10px rgba(255, 221, 0, 0.2);
+  background: #000040;
+}
+
+[data-theme="akiba-98"] .opponent.active .opponent-avatar {
+  border-color: #00ee66;
+  box-shadow: 4px 4px 0 #000, 0 0 16px rgba(0, 238, 102, 0.7);
+}
+
+[data-theme="akiba-98"] .play-area::after {
+  content: '▼ BATTLE FIELD ▼';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  color: #00aaff;
+  text-shadow: 0 0 6px #00aaff;
+  font-weight: 700;
+  pointer-events: none;
 }
 
 [data-theme="akiba-98"] .theme-bg {
