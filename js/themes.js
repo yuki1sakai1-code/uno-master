@@ -19,13 +19,38 @@ export function applyTheme(themeId) {
   document.querySelectorAll('.theme-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.theme === themeId);
   });
+
+  const current = THEMES.find(t => t.id === themeId);
+  const currentLabel = document.querySelector('.theme-current-label');
+  if (currentLabel && current) {
+    currentLabel.textContent = current.label;
+  }
 }
 
 export function initThemes() {
   const saved = getSavedTheme();
   applyTheme(saved);
 
+  const menu = document.getElementById('theme-menu');
+  const toggleBtn = document.getElementById('theme-toggle-btn');
+
+  if (toggleBtn && menu) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      menu.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target)) {
+        menu.classList.remove('open');
+      }
+    });
+  }
+
   document.querySelectorAll('.theme-btn').forEach(btn => {
-    btn.addEventListener('click', () => applyTheme(btn.dataset.theme));
+    btn.addEventListener('click', () => {
+      applyTheme(btn.dataset.theme);
+      menu?.classList.remove('open');
+    });
   });
 }

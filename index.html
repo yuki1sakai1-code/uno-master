@@ -116,29 +116,36 @@
 
   <!-- Theme Menu -->
   <aside id="theme-menu" class="theme-menu" aria-label="デザインプレビュー">
-    <div class="theme-menu-label">DESIGN PREVIEW MODE</div>
-    <nav class="theme-list">
-      <button class="theme-btn" data-theme="neon-tokyo">
-        <span class="theme-icon" aria-hidden="true"></span>
-        Neon Tokyo
-      </button>
-      <button class="theme-btn" data-theme="kyoto-zen">
-        <span class="theme-icon" aria-hidden="true"></span>
-        Kyoto Zen
-      </button>
-      <button class="theme-btn active" data-theme="akiba-98">
-        <span class="theme-icon" aria-hidden="true"></span>
-        Akiba '98
-      </button>
-      <button class="theme-btn" data-theme="shimokita-lofi">
-        <span class="theme-icon" aria-hidden="true"></span>
-        Shimokita Lo-Fi
-      </button>
-      <button class="theme-btn" data-theme="roppongi-void">
-        <span class="theme-icon" aria-hidden="true"></span>
-        Roppongi Void
-      </button>
-    </nav>
+    <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="テーマ切替">
+      <span class="theme-toggle-icon">🎨</span>
+      <span class="theme-current-label">Akiba '98</span>
+      <span class="theme-chevron">▾</span>
+    </button>
+    <div class="theme-dropdown-content">
+      <div class="theme-menu-label">DESIGN PREVIEW MODE</div>
+      <nav class="theme-list">
+        <button class="theme-btn" data-theme="neon-tokyo">
+          <span class="theme-icon" aria-hidden="true"></span>
+          Neon Tokyo
+        </button>
+        <button class="theme-btn" data-theme="kyoto-zen">
+          <span class="theme-icon" aria-hidden="true"></span>
+          Kyoto Zen
+        </button>
+        <button class="theme-btn active" data-theme="akiba-98">
+          <span class="theme-icon" aria-hidden="true"></span>
+          Akiba '98
+        </button>
+        <button class="theme-btn" data-theme="shimokita-lofi">
+          <span class="theme-icon" aria-hidden="true"></span>
+          Shimokita Lo-Fi
+        </button>
+        <button class="theme-btn" data-theme="roppongi-void">
+          <span class="theme-icon" aria-hidden="true"></span>
+          Roppongi Void
+        </button>
+      </nav>
+    </div>
   </aside>
 
   <script type="module" src="js/main.js"></script>
