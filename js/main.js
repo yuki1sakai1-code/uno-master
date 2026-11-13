@@ -1,6 +1,7 @@
 import { Game } from './game.js';
 import { canPlay, cardLabel, PLAYER_NAMES } from './cards.js';
 import { initThemes } from './themes.js';
+import { initField, updateField } from './field.js';
 import { playCardEffect } from './effects.js';
 import {
   triggerAiTurnThought,
@@ -106,6 +107,9 @@ function startGame() {
   if (humanThinkingTimer) clearTimeout(humanThinkingTimer);
   hideAllThoughts();
   game.start();
+  requestAnimationFrame(() => {
+    updateField();
+  });
 }
 
 function showMessage(msg, important = false) {
@@ -210,3 +214,4 @@ function render() {
 
 render();
 initThemes();
+initField();

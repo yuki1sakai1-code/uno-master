@@ -100,6 +100,7 @@ export function applyTheme(themeId) {
   localStorage.setItem(STORAGE_KEY, themeId);
 
   updateSvgGradients(themeId);
+  window.dispatchEvent(new CustomEvent('themechanged', { detail: { themeId } }));
 
   document.querySelectorAll('.theme-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.theme === themeId);
