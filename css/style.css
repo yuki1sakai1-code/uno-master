@@ -190,7 +190,7 @@ html, body {
 .opponent-avatar {
   width: 80px;
   height: 80px;
-  border-radius: 50%;
+  border-radius: 0;
   background: transparent;
   border: none;
   display: flex;
@@ -211,14 +211,12 @@ html, body {
 .avatar-crop {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  overflow: hidden;
+  border-radius: 0;
+  overflow: visible;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  -webkit-mask-image: -webkit-radial-gradient(white, black);
-  isolation: isolate;
   z-index: 0;
 }
 
@@ -226,14 +224,13 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 18%;
-  transform: scale(1.5);
-  transform-origin: center 20%;
-  border-radius: 50%;
+  object-position: center;
+  transform: none;
+  border-radius: 0;
   display: block;
 }
 
-/* プレイヤーCは元の画像がクローズアップのため、拡大せず初期サイズ・位置に戻す */
+/* プレイヤーC */
 .opponent-right .avatar-img {
   transform: none;
   object-position: center;
@@ -1087,7 +1084,7 @@ html, body {
   .opponent-right { top: 22%; right: 14px; transform: none; }
 
   .opponent-avatar { width: 56px; height: 56px; }
-  .avatar-img { transform: scale(1.45); }
+  .avatar-img { transform: none; object-position: center; }
   .opponent-right .avatar-img { transform: none; object-position: center; }
   .opponent-name { font-size: 0.65rem; max-width: 76px; }
 
