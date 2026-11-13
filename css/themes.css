@@ -18,6 +18,45 @@
   pointer-events: none;
 }
 
+/* ===== Cyber Perspective Table Board ===== */
+.cyber-mesh-grid {
+  position: absolute;
+  inset: 0;
+  background-color: #050b16;
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(0, 140, 255, 0.12) 0%, transparent 75%),
+    radial-gradient(rgba(0, 180, 255, 0.16) 1.2px, transparent 1.2px);
+  background-size: 100% 100%, 16px 16px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cyber-table-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.cyber-table-svg {
+  width: 100%;
+  height: 100%;
+  max-width: 1360px;
+  max-height: 840px;
+  pointer-events: none;
+  filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.8));
+}
+
+/* Akiba '98 テーマでのみ表示（他テーマでは各テーマ独自の背景を表示） */
+:not([data-theme="akiba-98"]) .cyber-table-container,
+:not([data-theme="akiba-98"]) .cyber-mesh-grid {
+  display: none;
+}
+
 /* ----- NEON TOKYO ----- */
 :root,
 [data-theme="neon-tokyo"] {
@@ -190,57 +229,81 @@
 }
 
 [data-theme="akiba-98"] .opponent-avatar {
-  border: 3px solid #ffdd00;
-  box-shadow: 3px 3px 0 #000, 0 0 10px rgba(255, 221, 0, 0.2);
-  background: #000040;
+  position: relative;
+  border: 2.5px solid #00d4ff;
+  box-shadow: 0 0 16px rgba(0, 212, 255, 0.85), 0 0 32px rgba(0, 160, 255, 0.4), inset 0 0 12px rgba(0, 212, 255, 0.5);
+  background: #061326;
+  overflow: visible;
+}
+
+[data-theme="akiba-98"] .opponent-avatar::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 212, 255, 0.45);
+  border-top-color: #00f0ff;
+  border-bottom-color: #00f0ff;
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.6);
+  pointer-events: none;
+  z-index: 1;
+}
+
+[data-theme="akiba-98"] .opponent-avatar::after {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 180, 255, 0.35) 0%, rgba(0, 100, 220, 0.12) 50%, transparent 75%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 [data-theme="akiba-98"] .opponent.active .opponent-avatar {
-  border-color: #00ee66;
-  box-shadow: 4px 4px 0 #000, 0 0 16px rgba(0, 238, 102, 0.7);
+  border-color: #00ffaa;
+  box-shadow: 0 0 24px rgba(0, 255, 170, 0.95), 0 0 45px rgba(0, 255, 170, 0.5), inset 0 0 15px rgba(0, 255, 170, 0.6);
+}
+
+[data-theme="akiba-98"] .opponent.active .opponent-avatar::before {
+  border-color: rgba(0, 255, 170, 0.5);
+  border-top-color: #00ffaa;
+  border-bottom-color: #00ffaa;
+  box-shadow: 0 0 20px rgba(0, 255, 170, 0.85);
+  animation: avatarHaloSpin 10s linear infinite;
+}
+
+[data-theme="akiba-98"] .opponent.active .opponent-avatar::after {
+  background: radial-gradient(circle, rgba(0, 255, 170, 0.45) 0%, rgba(0, 200, 140, 0.2) 50%, transparent 75%);
+}
+
+@keyframes avatarHaloSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 [data-theme="akiba-98"] .thought-bubble {
-  border-radius: 4px;
-  border: 2px solid #ffdd00;
-  box-shadow: 3px 3px 0 #000;
-  background: #000055;
-  color: #ffdd00;
+  border-radius: 12px;
+  border: 1.5px solid #00d4ff;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.7), 0 0 16px rgba(0, 212, 255, 0.45);
+  background: rgba(6, 18, 38, 0.94);
+  color: #e0f4ff;
+  backdrop-filter: blur(10px);
 }
 
 [data-theme="akiba-98"] .thought-bubble::before,
 [data-theme="akiba-98"] .thought-bubble::after {
-  border-radius: 0;
-  border: 1.5px solid #ffdd00;
-  background: #000055;
+  border-radius: 50%;
+  border: 1.5px solid #00d4ff;
+  background: rgba(6, 18, 38, 0.94);
 }
 
 [data-theme="akiba-98"] .theme-bg {
-  background:
-    radial-gradient(ellipse 65% 55% at 50% 50%, rgba(0, 170, 255, 0.2) 0%, transparent 70%),
-    radial-gradient(circle 320px at 50% 48%, rgba(204, 0, 255, 0.14) 0%, transparent 75%),
-    radial-gradient(ellipse 80% 35% at 50% 100%, rgba(0, 238, 102, 0.12) 0%, transparent 60%),
-    linear-gradient(180deg, #010035 0%, #000065 40%, #000045 75%, #080026 100%);
+  background: #040914;
 }
 
-[data-theme="akiba-98"] .theme-bg::before {
-  background:
-    radial-gradient(circle at 50% 50%, transparent 220px, rgba(0, 170, 255, 0.12) 221px, transparent 223px),
-    radial-gradient(circle at 50% 50%, transparent 380px, rgba(0, 170, 255, 0.08) 381px, transparent 383px),
-    radial-gradient(circle at 50% 50%, transparent 540px, rgba(204, 0, 255, 0.06) 541px, transparent 543px),
-    linear-gradient(90deg, transparent calc(50% - 1px), rgba(0, 170, 255, 0.08) 50%, transparent calc(50% + 1px)),
-    linear-gradient(0deg, transparent calc(50% - 1px), rgba(0, 170, 255, 0.08) 50%, transparent calc(50% + 1px)),
-    radial-gradient(rgba(0, 238, 102, 0.22) 1.2px, transparent 1.2px);
-  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 36px 36px;
-  mask-image: radial-gradient(ellipse 90% 85% at 50% 50%, black 35%, transparent 85%);
-  opacity: 0.9;
-}
-
+[data-theme="akiba-98"] .theme-bg::before,
 [data-theme="akiba-98"] .theme-bg::after {
-  background:
-    repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0, 0, 0, 0.15) 2px, rgba(0, 0, 0, 0.15) 4px),
-    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 60%, rgba(0, 0, 25, 0.6) 100%);
-  opacity: 0.8;
+  display: none;
 }
 
 [data-theme="akiba-98"] .card {

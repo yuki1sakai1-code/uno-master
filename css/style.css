@@ -183,9 +183,9 @@ html, body {
   z-index: 5;
 }
 
-.opponent-left  { left: 5%;  top: 50%; transform: translateY(-50%); }
+.opponent-left  { left: 9%;  top: 50%; transform: translateY(-50%); }
 .opponent-top   { top: 7%;   left: 50%; transform: translateX(-50%); }
-.opponent-right { right: 180px; top: 50%; transform: translateY(-50%); }
+.opponent-right { right: 16%; top: 50%; transform: translateY(-50%); }
 
 .opponent-avatar {
   width: 80px;
@@ -215,6 +215,7 @@ html, body {
   object-position: center 18%;
   transform: scale(1.5);
   transform-origin: center 20%;
+  border-radius: 50%;
   display: block;
 }
 
@@ -1217,5 +1218,9 @@ html, body {
   .opponent-right .thought-bubble {
     right: calc(100% + 6px);
     top: -4px;
+  }
+
+  .cyber-table-svg {
+    transform: scale(1.1);
   }
 }
