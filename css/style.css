@@ -208,6 +208,20 @@ html, body {
   transform: scale(1.05);
 }
 
+.avatar-crop {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  isolation: isolate;
+  z-index: 0;
+}
+
 .avatar-img {
   width: 100%;
   height: 100%;
