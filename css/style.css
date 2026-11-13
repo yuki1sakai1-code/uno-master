@@ -191,21 +191,21 @@ html, body {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.45);
-  border: 3px solid rgba(255, 255, 255, 0.22);
+  background: transparent;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: box-shadow 0.3s, border-color 0.3s, transform 0.25s;
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  transition: transform 0.25s, filter 0.3s;
+  overflow: visible;
+  box-shadow: none;
 }
 
 .opponent.active .opponent-avatar {
-  border-color: var(--active-ring, var(--yellow));
-  box-shadow: 0 0 20px color-mix(in srgb, var(--active-ring, var(--yellow)) 60%, transparent),
-              0 0 40px color-mix(in srgb, var(--active-ring, var(--yellow)) 30%, transparent);
-  transform: scale(1.05);
+  border: none;
+  box-shadow: none;
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 12px var(--active-ring, var(--yellow)));
 }
 
 .avatar-crop {
