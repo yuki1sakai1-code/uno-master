@@ -94,7 +94,7 @@ game.onGameOver = (winnerIndex) => {
   const won = winnerIndex === 0;
   resultTitle.textContent = won ? 'YOU WIN!' : 'GAME OVER';
   resultMessage.textContent = won
-    ? 'おめでとう！静かな夜、最高の勝利。'
+    ? 'おめでとう！最高の勝利。'
     : `${PLAYER_NAMES[winnerIndex]} の勝利… 次はリベンジ。`;
   setTimeout(() => resultModal.classList.remove('hidden'), 900);
 };
