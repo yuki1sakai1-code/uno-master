@@ -215,3 +215,7 @@ function render() {
 render();
 initThemes();
 initField();
+
+if (new URLSearchParams(window.location.search).has('autostart')) {
+  setTimeout(startGame, 150);
+}

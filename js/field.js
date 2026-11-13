@@ -9,22 +9,27 @@ import { THEME_SVG_PALETTES, getSavedTheme } from './themes.js';
 let resizeObserver = null;
 
 function buildTablePath(W, H, inset = 0) {
+  const isPortrait = H > W;
   const isMobile = W < 768;
-  const topY = Math.max(25, Math.round(H * 0.075)) + inset;
-  const botY = Math.min(H - 25, Math.round(H * 0.88)) - inset;
+  const topY = Math.max(20, Math.round(H * (isPortrait ? 0.055 : 0.075))) + inset;
+  const botY = Math.min(H - 20, Math.round(H * (isPortrait ? 0.91 : 0.88))) - inset;
   const tableH = botY - topY;
   const cx = W / 2;
 
-  const topHalfW = isMobile
-    ? Math.max(120, Math.min(W * 0.45, 340) - inset)
-    : Math.max(200, Math.min(W * 0.38, 480) - inset);
+  const topHalfW = isPortrait
+    ? Math.max(140, Math.min(W * 0.44, 440) - inset)
+    : (isMobile
+        ? Math.max(120, Math.min(W * 0.45, 340) - inset)
+        : Math.max(200, Math.min(W * 0.38, 480) - inset));
 
-  const botHalfW = isMobile
-    ? Math.max(140, Math.min(W * 0.48, 380) - inset)
-    : Math.max(260, Math.min(W * 0.48, 620) - inset);
+  const botHalfW = isPortrait
+    ? Math.max(160, Math.min(W * 0.48, 480) - inset)
+    : (isMobile
+        ? Math.max(140, Math.min(W * 0.48, 380) - inset)
+        : Math.max(260, Math.min(W * 0.48, 620) - inset));
 
-  const chamferX = isMobile ? Math.round(topHalfW * 0.12) : 55;
-  const chamferY = Math.round(tableH * 0.11);
+  const chamferX = (isMobile || isPortrait) ? Math.round(topHalfW * 0.12) : 55;
+  const chamferY = Math.round(tableH * (isPortrait ? 0.08 : 0.11));
 
   const p1x = Math.round(cx - topHalfW + chamferX);
   const p2x = Math.round(cx + topHalfW - chamferX);
@@ -123,9 +128,12 @@ export function updateField() {
   const outerPath = buildTablePath(W, H, 0);
   const innerPath = buildTablePath(W, H, 14);
 
-  // 同心円レーダー
-  const radarRx1 = Math.round(Math.min(W * 0.38, Math.max(cardW * 3.6, 260)));
-  const radarRy1 = Math.round(Math.min(H * 0.30, Math.max(cardH * 1.55, 140)));
+  // 同心円レーダー（縦画面・横画面それぞれで自然な比率に調整）
+  const isPortrait = H > W;
+  const isCompact = W < 960 || isPortrait;
+
+  const radarRx1 = Math.round(Math.min(W * 0.38, Math.max(cardW * 3.2, isPortrait ? 220 : 260)));
+  const radarRy1 = Math.round(Math.min(H * (isPortrait ? 0.22 : 0.30), Math.max(cardH * 1.5, 130)));
   const radarRx2 = Math.round(radarRx1 * 0.65);
   const radarRy2 = Math.round(radarRy1 * 0.65);
   const radarRx3 = Math.round(radarRx1 * 0.32);
@@ -135,15 +143,16 @@ export function updateField() {
   const ghostLeftX = drawX - gap - cardW;
   const ghostRightX = discardX + cardW + gap;
 
-  // ガイドライン
+  // ポートレートやコンパクト画面では中央の山札・捨て札の2枠のみをクリアに表示
+  // 大画面横長表示でのみ左右のゴースト枠を表示
+  const showGhostSlots = !isCompact && (ghostLeftX >= 160 && ghostRightX + cardW <= W - 160);
+
+  // ガイドライン（スロットの表示有無に合わせて自然に接続）
   const guideY = centerY;
   const guideLeftX1 = Math.round(Math.max(20, W * 0.08));
-  const guideLeftX2 = ghostLeftX - 16;
-  const guideRightX1 = ghostRightX + cardW + 16;
+  const guideLeftX2 = showGhostSlots ? (ghostLeftX - 16) : (drawX - 16);
+  const guideRightX1 = showGhostSlots ? (ghostRightX + cardW + 16) : (discardX + cardW + 16);
   const guideRightX2 = Math.round(Math.min(W - 20, W * 0.92));
-
-  // モバイルかつ画面幅が狭い場合は、左右のゴースト枠がはみ出ないよう2枠のみ表示
-  const showGhostSlots = !isMobile || (ghostLeftX >= 10 && ghostRightX + cardW <= W - 10);
 
   let slotsHtml = '';
   if (showGhostSlots) {
