@@ -11,7 +11,23 @@
   <link rel="stylesheet" href="css/themes.css">
 </head>
 <body>
-  <div class="theme-bg" aria-hidden="true">
+  <div class="theme-bg" aria-hidden="true"></div>
+
+  <!-- Title Screen -->
+  <div id="title-screen" class="screen active">
+    <div class="title-content">
+      <h1 class="game-title">UNO 2.0</h1>
+      <p class="tagline">世界で一番UNOが好き</p>
+      <button id="start-btn" class="start-btn">
+        <span class="play-icon">▶</span>
+        GAME START
+      </button>
+    </div>
+  </div>
+
+  <!-- Game Screen -->
+  <div id="game-screen" class="screen">
+    <!-- Cyber Perspective Table & Field (ゲーム中のみ表示) -->
     <div class="cyber-mesh-grid"></div>
     <div class="cyber-table-container">
       <svg class="cyber-table-svg" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid meet">
@@ -74,21 +90,6 @@
         <rect class="table-slot" x="768" y="282" width="92" height="136" rx="8" fill="none" stroke="var(--table-slot-stroke, #00c8ff)" stroke-width="1.5" stroke-opacity="0.3" filter="url(#slotGlow)"/>
       </svg>
     </div>
-  </div>
-  <!-- Title Screen -->
-  <div id="title-screen" class="screen active">
-    <div class="title-content">
-      <h1 class="game-title">UNO 2.0</h1>
-      <p class="tagline">世界で一番UNOが好き</p>
-      <button id="start-btn" class="start-btn">
-        <span class="play-icon">▶</span>
-        GAME START
-      </button>
-    </div>
-  </div>
-
-  <!-- Game Screen -->
-  <div id="game-screen" class="screen">
     <div class="game-hud">
       <div id="message-bar" class="message-bar"></div>
     </div>

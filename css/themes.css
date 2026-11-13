@@ -33,7 +33,7 @@
   justify-content: center;
   pointer-events: none;
   overflow: hidden;
-  z-index: 1;
+  z-index: 0;
 }
 
 .cyber-table-svg {
