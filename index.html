@@ -13,6 +13,18 @@
 <body>
   <div class="theme-bg" aria-hidden="true"></div>
 
+  <!-- Top Controls (Audio & Settings) -->
+  <div class="top-controls" aria-label="ゲーム操作・設定">
+    <button id="bgm-toggle-btn" class="ctrl-btn" title="音楽 ON/OFF" aria-label="音楽 ON/OFF">
+      <span class="ctrl-icon" id="bgm-icon">🔊</span>
+      <span class="ctrl-label" id="bgm-label">BGM</span>
+    </button>
+    <button id="settings-toggle-btn" class="ctrl-btn" title="設定" aria-label="設定">
+      <span class="ctrl-icon">⚙️</span>
+      <span class="ctrl-label">設定</span>
+    </button>
+  </div>
+
   <!-- Title Screen -->
   <div id="title-screen" class="screen active">
     <div class="title-content">
@@ -138,6 +150,58 @@
     </div>
   </div>
 
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal hidden" aria-modal="true" role="dialog">
+    <div class="modal-content settings-content">
+      <div class="settings-header">
+        <h2 class="settings-title">⚙️ 設定</h2>
+        <button id="settings-close-btn" class="settings-close-btn" aria-label="閉じる">✕</button>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">🎵 BGM 再生</div>
+        <div class="settings-row">
+          <span class="settings-row-label">音楽の再生</span>
+          <button id="modal-bgm-toggle-btn" class="settings-pill-btn active">
+            <span id="modal-bgm-icon">🔊</span>
+            <span id="modal-bgm-status">ON</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">📻 BGM 楽曲切り替え</div>
+        <div class="track-list" id="track-list">
+          <button class="track-btn active" data-track="dealers-choice">
+            <span class="track-status-icon">▶</span>
+            <span class="track-info">
+              <span class="track-title">Dealer's Choice</span>
+              <span class="track-badge">デフォルト</span>
+            </span>
+          </button>
+          <button class="track-btn" data-track="tabletop-shuffle">
+            <span class="track-status-icon">▶</span>
+            <span class="track-info">
+              <span class="track-title">Tabletop Shuffle</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">🔊 音量</div>
+        <div class="settings-row volume-row">
+          <input type="range" id="volume-slider" min="0" max="100" value="40" class="volume-slider" aria-label="音量調整">
+          <span id="volume-value" class="volume-val">40%</span>
+        </div>
+      </div>
+
+      <div class="settings-footer">
+        <button id="settings-confirm-btn" class="start-btn small">閉じる</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Theme Menu -->
   <aside id="theme-menu" class="theme-menu" aria-label="デザインプレビュー">
     <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="テーマ切替">
@@ -172,6 +236,6 @@
     </div>
   </aside>
 
-  <script type="module" src="js/main.js"></script>
+  <script src="js/bundle.js"></script>
 </body>
 </html>

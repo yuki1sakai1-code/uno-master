@@ -138,8 +138,8 @@
    ============================================================ */
 :root,
 [data-theme="akiba-98"] {
-  --bg: #040914;
-  --bg-game: #040914;
+  --bg: #000072;
+  --bg-game: #000048;
   --red: #ff0044;
   --green: #00ee66;
   --blue: #00aaff;
@@ -158,34 +158,42 @@
   --card-back-bg: #cc00cc;
   --card-back-border: #000;
   --card-text-dark: #000;
-  --title-gradient: linear-gradient(180deg, #00aaff 0%, #ff0044 40%, #ffdd00 80%);
-  --title-glow: drop-shadow(3px 3px 0 #000) drop-shadow(-1px -1px 0 #fff);
+  --title-gradient: linear-gradient(180deg, #b82478 0%, #eb1055 22%, #ff5224 45%, #ff9010 72%, #ffd600 100%);
+  --title-glow: drop-shadow(0px 5px 0px #080010) drop-shadow(0px 8px 24px rgba(0, 0, 0, 0.6));
   --active-ring: #ffdd00;
-  --modal-bg: #0000aa;
+  --modal-bg: #000088;
 
   /* Table Palette */
-  --table-fill-top: #0e2448;
-  --table-fill-mid: #091832;
-  --table-fill-bot: #040b18;
-  --table-glow-core: #00d4ff;
-  --table-glow-outer: #0066cc;
-  --table-stroke: #00d4ff;
-  --table-stroke-glow: #00d4ff;
+  --table-fill-top: #002288;
+  --table-fill-mid: #001666;
+  --table-fill-bot: #000c40;
+  --table-glow-core: #00e5ff;
+  --table-glow-outer: #0077ff;
+  --table-stroke: #00e5ff;
+  --table-stroke-glow: #00e5ff;
   --table-inner-line: #00c8ff;
   --table-accent: #ffdd00;
   --table-radar: #00c8ff;
   --table-guide: #00c8ff;
-  --table-slot-stroke: #00d4ff;
-  --table-floor-bg: #040914;
-  --table-floor-glow: rgba(0, 140, 255, 0.14);
-  --table-floor-dot: rgba(0, 180, 255, 0.16);
+  --table-slot-stroke: #00e5ff;
+  --table-floor-bg: #000048;
+  --table-floor-glow: rgba(0, 120, 255, 0.28);
+  --table-floor-dot: rgba(0, 200, 255, 0.22);
 
   /* Avatar Halos */
-  --avatar-halo-border: #00d4ff;
-  --avatar-halo-glow: rgba(0, 212, 255, 0.85);
+  --avatar-halo-border: #00e5ff;
+  --avatar-halo-glow: rgba(0, 229, 255, 0.85);
   --avatar-halo-aura: rgba(0, 180, 255, 0.35);
   --avatar-active-color: #00ffaa;
   --thought-text: #e0f4ff;
+}
+
+[data-theme="akiba-98"] .theme-bg {
+  background-color: #00005a;
+  background-image:
+    radial-gradient(rgba(0, 200, 255, 0.22) 1.2px, transparent 1.2px),
+    linear-gradient(180deg, #0000a4 0%, #000072 50%, #000044 100%);
+  background-size: 20px 20px, 100% 100%;
 }
 
 [data-theme="akiba-98"] .card {

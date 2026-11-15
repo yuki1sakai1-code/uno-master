@@ -641,7 +641,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  min-height: calc(var(--card-h) + 40px);
+  min-height: calc(var(--card-h) * 1.1 + 40px);
   width: 100%;
   max-width: 900px;
   padding: 0 24px;
@@ -650,9 +650,19 @@ html, body {
 }
 
 .player-hand .card {
-  margin-left: -24px;
+  width: calc(var(--card-w) * 1.1);
+  height: calc(var(--card-h) * 1.1);
+  margin-left: -26px;
   transform-origin: bottom center;
   position: relative;
+}
+
+.player-hand .card .card-corner {
+  font-size: calc(0.85rem * 1.08);
+}
+
+.player-hand .card .card-value {
+  font-size: clamp(2.2rem, 5.5vw, 3.5rem);
 }
 
 .player-hand .card:first-child {
@@ -763,6 +773,265 @@ html, body {
 .result-content p {
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.95rem;
+}
+
+/* ===== Top Controls (BGM & Settings) ===== */
+.top-controls {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 250;
+  pointer-events: auto;
+}
+
+.ctrl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(10, 20, 42, 0.85);
+  border: 1.5px solid var(--table-stroke, rgba(0, 212, 255, 0.5));
+  border-radius: 999px;
+  color: #fff;
+  font-family: 'Outfit', 'Noto Sans JP', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.ctrl-btn:hover {
+  transform: scale(1.04);
+  border-color: var(--table-stroke-glow, #00d4ff);
+  box-shadow: 0 0 16px var(--table-floor-glow, rgba(0, 212, 255, 0.4));
+}
+
+.ctrl-btn.muted {
+  opacity: 0.7;
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(20, 20, 30, 0.85);
+}
+
+.ctrl-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.ctrl-label {
+  letter-spacing: 0.05em;
+}
+
+/* ===== Settings Modal ===== */
+.settings-content {
+  width: 90%;
+  max-width: 420px;
+  padding: 1.8rem 2rem;
+  text-align: left;
+  border: 2px solid var(--table-stroke, rgba(0, 212, 255, 0.6));
+  background: var(--modal-bg, #000088);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px var(--table-floor-glow, rgba(0, 140, 255, 0.25));
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding-bottom: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.settings-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+
+.settings-close-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.settings-close-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.settings-section {
+  margin-bottom: 1.2rem;
+}
+
+.settings-section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--table-stroke, #00d4ff);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.6rem;
+}
+
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.settings-row-label {
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.settings-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settings-pill-btn.active {
+  border-color: #00ffaa;
+  background: rgba(0, 255, 170, 0.15);
+  color: #00ffaa;
+  box-shadow: 0 0 12px rgba(0, 255, 170, 0.3);
+}
+
+/* Track list */
+.track-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.track-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+}
+
+.track-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--table-stroke, #00d4ff);
+}
+
+.track-btn.active {
+  background: rgba(0, 212, 255, 0.15);
+  border-color: var(--table-stroke, #00d4ff);
+  box-shadow: 0 0 14px var(--table-floor-glow, rgba(0, 212, 255, 0.3));
+}
+
+.track-status-icon {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+  width: 16px;
+  text-align: center;
+}
+
+.track-btn.active .track-status-icon {
+  color: #ffdd00;
+}
+
+.track-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.track-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.track-badge {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  background: rgba(255, 221, 0, 0.2);
+  border: 1px solid rgba(255, 221, 0, 0.5);
+  border-radius: 4px;
+  color: #ffdd00;
+  font-weight: 500;
+}
+
+/* Volume Slider */
+.volume-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.volume-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--table-stroke, #00d4ff);
+  box-shadow: 0 0 10px var(--table-stroke, #00d4ff);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.volume-val {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  min-width: 42px;
+  text-align: right;
+}
+
+.settings-footer {
+  margin-top: 1.4rem;
+  text-align: center;
 }
 
 /* ===== Animations ===== */
@@ -1211,10 +1480,30 @@ html, body {
     --card-h: 102px;
   }
 
-  /* 縦画面では相手3名を上部〜中上部に三角形配置し、中央カード置き場との重なりを完全解消 */
-  .opponent-top   { top: 5%; left: 50%; transform: translateX(-50%); }
-  .opponent-left  { top: 19%; left: 12%; transform: none; }
-  .opponent-right { top: 19%; right: 12%; transform: none; }
+  .top-controls {
+    top: 10px;
+    left: 10px;
+    gap: 6px;
+  }
+
+  .ctrl-btn {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+
+  .game-hud {
+    top: 10px;
+  }
+
+  .message-bar {
+    font-size: 0.8rem;
+    padding-top: 2px;
+  }
+
+  /* 縦画面では相手3名を上部〜中上部に三角形配置し、外枠の内側に美しく収める */
+  .opponent-top   { top: 36px; left: 50%; transform: translateX(-50%); }
+  .opponent-left  { top: 17%; left: 18px; transform: none; }
+  .opponent-right { top: 17%; right: 18px; transform: none; }
 
   .opponent-avatar { width: 62px; height: 62px; }
   .opponent-name { font-size: 0.7rem; max-width: 80px; }
@@ -1234,12 +1523,27 @@ html, body {
     height: 230px;
   }
 
+  .player-area {
+    padding-bottom: 24px;
+  }
+
+  .player-label {
+    margin-bottom: 4px;
+    font-size: 0.7rem;
+  }
+
   .player-hand {
     padding: 0 16px;
+    min-height: calc(var(--card-h) * 1.1 + 24px);
   }
 
   .player-hand .card {
-    margin-left: -26px;
+    margin-left: -30px;
+  }
+
+  .player-actions {
+    margin-top: 8px;
+    gap: 12px;
   }
 
   /* 思考吹き出し */
@@ -1257,9 +1561,25 @@ html, body {
     left: calc(100% + 6px);
     top: -2px;
   }
+  /* プレイヤーB (上部) の吹き出し: アバター直下に中央配置し、テーマメニューや他プレイヤーとの重なりを防止 */
   .opponent-top .thought-bubble {
-    left: calc(100% + 6px);
-    top: 4px;
+    left: 50%;
+    right: auto;
+    top: calc(100% + 8px);
+    transform: translateX(-50%);
+    transform-origin: top center;
+  }
+  .opponent-top .thought-bubble::before {
+    left: 50%;
+    right: auto;
+    top: -6px;
+    transform: translateX(-50%);
+  }
+  .opponent-top .thought-bubble::after {
+    left: 50%;
+    right: auto;
+    top: -11px;
+    transform: translateX(-50%);
   }
   .opponent-right .thought-bubble {
     right: calc(100% + 6px);
@@ -1278,9 +1598,24 @@ html, body {
     --card-h: 87px;
   }
 
-  .opponent-top   { top: 4%; }
-  .opponent-left  { top: 18%; left: 10px; }
-  .opponent-right { top: 18%; right: 10px; }
+  .top-controls {
+    top: 8px;
+    left: 8px;
+    gap: 4px;
+  }
+
+  .ctrl-btn {
+    padding: 4px 8px;
+    font-size: 0.72rem;
+  }
+
+  .settings-content {
+    padding: 1.4rem 1.4rem;
+  }
+
+  .opponent-top   { top: 34px; }
+  .opponent-left  { top: 16%; left: 16px; }
+  .opponent-right { top: 16%; right: 16px; }
 
   .opponent-avatar { width: 52px; height: 52px; }
   .opponent-name { font-size: 0.62rem; max-width: 68px; }
@@ -1291,7 +1626,16 @@ html, body {
     height: 200px;
   }
 
+  .player-area {
+    padding-bottom: 22px;
+  }
+
   .player-hand .card {
-    margin-left: -28px;
+    margin-left: -30px;
+  }
+
+  .player-actions {
+    margin-top: 6px;
+    gap: 10px;
   }
 }

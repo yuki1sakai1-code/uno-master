@@ -11,25 +11,31 @@ let resizeObserver = null;
 function buildTablePath(W, H, inset = 0) {
   const isPortrait = H > W;
   const isMobile = W < 768;
-  const topY = Math.max(20, Math.round(H * (isPortrait ? 0.055 : 0.075))) + inset;
-  const botY = Math.min(H - 20, Math.round(H * (isPortrait ? 0.91 : 0.88))) - inset;
-  const tableH = botY - topY;
   const cx = W / 2;
 
-  const topHalfW = isPortrait
-    ? Math.max(140, Math.min(W * 0.44, 440) - inset)
-    : (isMobile
-        ? Math.max(120, Math.min(W * 0.45, 340) - inset)
-        : Math.max(200, Math.min(W * 0.38, 480) - inset));
+  let topY, botY, topHalfW, botHalfW, chamferX, chamferY;
 
-  const botHalfW = isPortrait
-    ? Math.max(160, Math.min(W * 0.48, 480) - inset)
-    : (isMobile
-        ? Math.max(140, Math.min(W * 0.48, 380) - inset)
-        : Math.max(260, Math.min(W * 0.48, 620) - inset));
-
-  const chamferX = (isMobile || isPortrait) ? Math.round(topHalfW * 0.12) : 55;
-  const chamferY = Math.round(tableH * (isPortrait ? 0.08 : 0.11));
+  if (isPortrait) {
+    const pad = Math.max(8, Math.min(14, Math.round(W * 0.025)));
+    topY = pad + inset;
+    botY = H - pad - inset;
+    topHalfW = Math.round(W / 2 - pad) - inset;
+    botHalfW = topHalfW;
+    chamferX = Math.min(28, Math.round(topHalfW * 0.14));
+    chamferY = Math.min(28, Math.round((botY - topY) * 0.04));
+  } else {
+    topY = Math.max(20, Math.round(H * 0.075)) + inset;
+    botY = Math.min(H - 20, Math.round(H * 0.88)) - inset;
+    const tableH = botY - topY;
+    topHalfW = isMobile
+      ? Math.max(120, Math.min(W * 0.45, 340) - inset)
+      : Math.max(200, Math.min(W * 0.38, 480) - inset);
+    botHalfW = isMobile
+      ? Math.max(140, Math.min(W * 0.48, 380) - inset)
+      : Math.max(260, Math.min(W * 0.48, 620) - inset);
+    chamferX = isMobile ? Math.round(topHalfW * 0.12) : 55;
+    chamferY = Math.round(tableH * 0.11);
+  }
 
   const p1x = Math.round(cx - topHalfW + chamferX);
   const p2x = Math.round(cx + topHalfW - chamferX);
@@ -73,6 +79,10 @@ export function updateField() {
   const H = Math.round(rect.height || window.innerHeight);
   if (W <= 0 || H <= 0) return;
 
+  const isPortrait = H > W;
+  const isCompact = W < 960 || isPortrait;
+  const isMobile = W < 768;
+
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
   svg.setAttribute('width', `${W}`);
   svg.setAttribute('height', `${H}`);
@@ -81,7 +91,6 @@ export function updateField() {
   const drawPile = document.getElementById('draw-pile');
   const discardPile = document.getElementById('discard-pile');
 
-  const isMobile = W < 768;
   let cardW = isMobile ? 60 : 88;
   let cardH = isMobile ? 90 : 132;
   let gap = isMobile ? 24 : 40;
@@ -126,11 +135,9 @@ export function updateField() {
 
   // パースペクティブテーブルのパス
   const outerPath = buildTablePath(W, H, 0);
-  const innerPath = buildTablePath(W, H, 14);
+  const innerPath = buildTablePath(W, H, isPortrait ? 6 : 14);
 
   // 同心円レーダー（縦画面・横画面それぞれで自然な比率に調整）
-  const isPortrait = H > W;
-  const isCompact = W < 960 || isPortrait;
 
   const radarRx1 = Math.round(Math.min(W * 0.38, Math.max(cardW * 3.2, isPortrait ? 220 : 260)));
   const radarRy1 = Math.round(Math.min(H * (isPortrait ? 0.22 : 0.30), Math.max(cardH * 1.5, 130)));
@@ -149,10 +156,11 @@ export function updateField() {
 
   // ガイドライン（スロットの表示有無に合わせて自然に接続）
   const guideY = centerY;
-  const guideLeftX1 = Math.round(Math.max(20, W * 0.08));
+  const pad = isPortrait ? Math.max(8, Math.min(14, Math.round(W * 0.025))) : 20;
+  const guideLeftX1 = isPortrait ? Math.round(pad + 10) : Math.round(Math.max(20, W * 0.08));
   const guideLeftX2 = showGhostSlots ? (ghostLeftX - 16) : (drawX - 16);
   const guideRightX1 = showGhostSlots ? (ghostRightX + cardW + 16) : (discardX + cardW + 16);
-  const guideRightX2 = Math.round(Math.min(W - 20, W * 0.92));
+  const guideRightX2 = isPortrait ? Math.round(W - pad - 10) : Math.round(Math.min(W - 20, W * 0.92));
 
   let slotsHtml = '';
   if (showGhostSlots) {
@@ -205,8 +213,8 @@ export function updateField() {
     <!-- Inset Tech Border Line -->
     <path class="table-inner-line" d="${innerPath}" fill="none" stroke="${p.strokeOuter}" stroke-width="1.2" stroke-opacity="0.45"/>
 
-    <!-- Top & Corner Tech HUD Accents -->
-    <line class="table-hud-accent" x1="${hudLineX1}" y1="${hudTopY}" x2="${hudLineX2}" y2="${hudTopY}" stroke="${p.stroke}" stroke-width="2" stroke-dasharray="10 4 4 4 4 4" stroke-opacity="0.85"/>
+    <!-- Top & Corner Tech HUD Accents (横画面のみ表示) -->
+    ${!isPortrait ? `<line class="table-hud-accent" x1="${hudLineX1}" y1="${hudTopY}" x2="${hudLineX2}" y2="${hudTopY}" stroke="${p.stroke}" stroke-width="2" stroke-dasharray="10 4 4 4 4 4" stroke-opacity="0.85"/>` : ''}
 
     <!-- Concentric Perspective Radar Rings (カード中心に同心円で配置) -->
     <ellipse class="table-radar-ring" cx="${centerX}" cy="${centerY}" rx="${radarRx1}" ry="${radarRy1}" fill="none" stroke="${p.strokeOuter}" stroke-width="1.2" stroke-opacity="0.22" stroke-dasharray="14 8"/>

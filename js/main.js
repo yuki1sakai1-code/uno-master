@@ -3,6 +3,7 @@ import { canPlay, cardLabel, PLAYER_NAMES } from './cards.js';
 import { initThemes } from './themes.js';
 import { initField, updateField } from './field.js';
 import { playCardEffect } from './effects.js';
+import { audioManager } from './audio.js';
 import {
   triggerAiTurnThought,
   triggerGameStartThoughts,
@@ -30,6 +31,19 @@ const colorModal = $('#color-modal');
 const resultModal = $('#result-modal');
 const resultTitle = $('#result-title');
 const resultMessage = $('#result-message');
+
+// Audio & Settings Elements
+const bgmToggleBtn = $('#bgm-toggle-btn');
+const bgmIcon = $('#bgm-icon');
+const settingsToggleBtn = $('#settings-toggle-btn');
+const settingsModal = $('#settings-modal');
+const settingsCloseBtn = $('#settings-close-btn');
+const settingsConfirmBtn = $('#settings-confirm-btn');
+const modalBgmToggleBtn = $('#modal-bgm-toggle-btn');
+const modalBgmIcon = $('#modal-bgm-icon');
+const modalBgmStatus = $('#modal-bgm-status');
+const volumeSlider = $('#volume-slider');
+const volumeValue = $('#volume-value');
 
 const game = new Game();
 let selectedIndex = -1;
@@ -106,6 +120,7 @@ function startGame() {
   lastTopCardKey = null;
   if (humanThinkingTimer) clearTimeout(humanThinkingTimer);
   hideAllThoughts();
+  audioManager.play();
   game.start();
   requestAnimationFrame(() => {
     updateField();
@@ -215,6 +230,84 @@ function render() {
 render();
 initThemes();
 initField();
+
+// ===== Audio & Settings Integration =====
+function updateAudioUI(state) {
+  const isEnabled = state.enabled;
+  if (bgmIcon) bgmIcon.textContent = isEnabled ? '🔊' : '🔇';
+  if (bgmToggleBtn) {
+    bgmToggleBtn.classList.toggle('muted', !isEnabled);
+    bgmToggleBtn.title = isEnabled ? '音楽 OFF (ミュート)' : '音楽 ON';
+  }
+  if (modalBgmIcon) modalBgmIcon.textContent = isEnabled ? '🔊' : '🔇';
+  if (modalBgmStatus) modalBgmStatus.textContent = isEnabled ? 'ON' : 'OFF';
+  if (modalBgmToggleBtn) modalBgmToggleBtn.classList.toggle('active', isEnabled);
+
+  $$('.track-btn').forEach(btn => {
+    const isActive = btn.dataset.track === state.currentTrackId;
+    btn.classList.toggle('active', isActive);
+    const icon = btn.querySelector('.track-status-icon');
+    if (icon) icon.textContent = isActive ? (isEnabled ? '▶' : '⏸') : '';
+  });
+
+  if (volumeSlider) volumeSlider.value = Math.round(state.volume * 100);
+  if (volumeValue) volumeValue.textContent = `${Math.round(state.volume * 100)}%`;
+}
+
+bgmToggleBtn?.addEventListener('click', () => {
+  audioManager.toggle();
+});
+
+modalBgmToggleBtn?.addEventListener('click', () => {
+  audioManager.toggle();
+});
+
+settingsToggleBtn?.addEventListener('click', () => {
+  settingsModal?.classList.remove('hidden');
+});
+
+settingsCloseBtn?.addEventListener('click', () => {
+  settingsModal?.classList.add('hidden');
+});
+
+settingsConfirmBtn?.addEventListener('click', () => {
+  settingsModal?.classList.add('hidden');
+});
+
+settingsModal?.addEventListener('click', (e) => {
+  if (e.target === settingsModal) {
+    settingsModal.classList.add('hidden');
+  }
+});
+
+$$('.track-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    audioManager.setTrack(btn.dataset.track);
+  });
+});
+
+volumeSlider?.addEventListener('input', (e) => {
+  const val = parseInt(e.target.value, 10);
+  audioManager.setVolume(val / 100);
+});
+
+window.audioManager = audioManager;
+audioManager.onStateChange = updateAudioUI;
+updateAudioUI({
+  enabled: audioManager.enabled,
+  currentTrackId: audioManager.currentTrackId,
+  volume: audioManager.volume,
+  isPlaying: false
+});
+
+// ユーザーが画面上の任意の場所をクリックした際に音声再生可能状態にする
+const unlockAudio = () => {
+  if (audioManager.enabled && audioManager.audio.paused) {
+    audioManager.play();
+  }
+  window.removeEventListener('click', unlockAudio);
+};
+window.addEventListener('click', unlockAudio);
 
 if (new URLSearchParams(window.location.search).has('autostart')) {
   setTimeout(startGame, 150);

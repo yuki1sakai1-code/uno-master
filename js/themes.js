@@ -8,15 +8,15 @@ export const THEMES = [
 
 export const THEME_SVG_PALETTES = {
   'akiba-98': {
-    fillTop: '#0e2448',
-    fillMid1: '#091832',
-    fillMid2: '#061225',
-    fillBot: '#040b18',
-    glowCore: '#00d4ff',
-    glowMid: '#0066cc',
-    stroke: '#00d4ff',
-    strokeOuter: '#0099ff',
-    slotStroke: '#00d4ff'
+    fillTop: '#002288',
+    fillMid1: '#001870',
+    fillMid2: '#001050',
+    fillBot: '#000a38',
+    glowCore: '#00e5ff',
+    glowMid: '#0077ff',
+    stroke: '#00e5ff',
+    strokeOuter: '#0088ff',
+    slotStroke: '#00e5ff'
   },
   'neon-tokyo': {
     fillTop: '#1e0538',
@@ -67,7 +67,11 @@ export const THEME_SVG_PALETTES = {
 const STORAGE_KEY = 'foth-theme';
 
 export function getSavedTheme() {
-  return localStorage.getItem(STORAGE_KEY) || 'akiba-98';
+  try {
+    return localStorage.getItem(STORAGE_KEY) || 'akiba-98';
+  } catch (e) {
+    return 'akiba-98';
+  }
 }
 
 function updateSvgGradients(themeId) {
@@ -97,7 +101,9 @@ function updateSvgGradients(themeId) {
 
 export function applyTheme(themeId) {
   document.documentElement.dataset.theme = themeId;
-  localStorage.setItem(STORAGE_KEY, themeId);
+  try {
+    localStorage.setItem(STORAGE_KEY, themeId);
+  } catch (e) {}
 
   updateSvgGradients(themeId);
   window.dispatchEvent(new CustomEvent('themechanged', { detail: { themeId } }));
