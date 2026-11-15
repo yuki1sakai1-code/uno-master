@@ -78,8 +78,8 @@
 /* ===== Opponent Avatars (丸囲み・切り抜きを撤廃) ===== */
 .opponent-avatar {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 88px;
+  height: 88px;
   border-radius: 0;
   border: none;
   box-shadow: none;

@@ -188,8 +188,8 @@ html, body {
 .opponent-right { right: 16%; top: 50%; transform: translateY(-50%); }
 
 .opponent-avatar {
-  width: 80px;
-  height: 80px;
+  width: 88px;
+  height: 88px;
   border-radius: 0;
   background: transparent;
   border: none;
@@ -1457,7 +1457,7 @@ html, body {
   .opponent-right { right: 7%; top: 50%; transform: translateY(-50%); }
   .opponent-top   { top: 6%; left: 50%; transform: translateX(-50%); }
 
-  .opponent-avatar { width: 72px; height: 72px; }
+  .opponent-avatar { width: 80px; height: 80px; }
 
   .play-area {
     gap: 2.2rem;
