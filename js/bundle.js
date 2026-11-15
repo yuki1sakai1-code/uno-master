@@ -1344,6 +1344,62 @@
     }
     return el;
   }
+  var AVATAR_EXPRESSIONS = {
+    1: {
+      // プレイヤーA
+      normal: "assets/avatars/jockey-a.png",
+      advantage: "assets/avatars/jockey-a-win.png",
+      disadvantage: "assets/avatars/jockey-a-lose.png"
+    },
+    2: {
+      // プレイヤーB
+      normal: "assets/avatars/jockey-b.png",
+      advantage: "assets/avatars/jockey-b-win.png",
+      disadvantage: "assets/avatars/jockey-b-lose.png"
+    },
+    3: {
+      // プレイヤーC
+      normal: "assets/avatars/jockey-c.png",
+      advantage: "assets/avatars/jockey-c-win.png",
+      disadvantage: "assets/avatars/jockey-c-lose.png"
+    }
+  };
+  function updateOpponentEmotions() {
+    if (!game || !game.players) return;
+    for (let p = 1; p <= 3; p++) {
+      const oppEl = $(`[data-player="${p}"]`);
+      if (!oppEl) continue;
+      const imgEl = oppEl.querySelector(".avatar-img");
+      if (!imgEl) continue;
+      const count = game.players[p] && game.players[p].length || 0;
+      let state = "normal";
+      if (game.phase && game.phase !== "init" && count > 0) {
+        if (count <= 2) {
+          state = "advantage";
+        } else if (count >= 8) {
+          state = "disadvantage";
+        } else {
+          state = "normal";
+        }
+      }
+      const expMap = AVATAR_EXPRESSIONS[p];
+      if (expMap) {
+        const targetSrc = expMap[state] || expMap.normal;
+        const currentEmotion = imgEl.getAttribute("data-emotion");
+        if (currentEmotion !== state) {
+          imgEl.setAttribute("data-emotion", state);
+          const testImg = new Image();
+          testImg.onload = () => {
+            imgEl.src = targetSrc;
+          };
+          testImg.onerror = () => {
+            imgEl.src = expMap.normal;
+          };
+          testImg.src = targetSrc;
+        }
+      }
+    }
+  }
   function render() {
     deckCount.textContent = game.deck.length;
     discardPile.innerHTML = "";
@@ -1385,6 +1441,7 @@
       const idx = parseInt(el.dataset.player, 10);
       el.classList.toggle("active", game.currentPlayer === idx);
     });
+    updateOpponentEmotions();
     unoBtn.disabled = !(game.phase === "human" && hand.length === 1);
     passBtn.disabled = game.phase !== "human";
     drawPile.style.opacity = isHumanTurn ? "1" : "0.5";

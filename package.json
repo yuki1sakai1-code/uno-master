@@ -5,6 +5,7 @@
   "scripts": {
     "build": "npx esbuild js/main.js --bundle --outfile=js/bundle.js --format=iife",
     "watch": "npx esbuild js/main.js --bundle --outfile=js/bundle.js --format=iife --watch",
+    "clean-avatars": "node js/process_avatars.js",
     "start": "py -m http.server 1000"
   }
 }

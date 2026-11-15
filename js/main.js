@@ -173,6 +173,71 @@ function renderCardElement(card, options = {}) {
   return el;
 }
 
+// ===== キャラクター表情管理 (通常 / 有利 / 不利) =====
+export const AVATAR_EXPRESSIONS = {
+  1: { // プレイヤーA
+    normal: 'assets/avatars/jockey-a.png',
+    advantage: 'assets/avatars/jockey-a-win.png',
+    disadvantage: 'assets/avatars/jockey-a-lose.png',
+  },
+  2: { // プレイヤーB
+    normal: 'assets/avatars/jockey-b.png',
+    advantage: 'assets/avatars/jockey-b-win.png',
+    disadvantage: 'assets/avatars/jockey-b-lose.png',
+  },
+  3: { // プレイヤーC
+    normal: 'assets/avatars/jockey-c.png',
+    advantage: 'assets/avatars/jockey-c-win.png',
+    disadvantage: 'assets/avatars/jockey-c-lose.png',
+  }
+};
+
+function updateOpponentEmotions() {
+  if (!game || !game.players) return;
+
+  for (let p = 1; p <= 3; p++) {
+    const oppEl = $(`[data-player="${p}"]`);
+    if (!oppEl) continue;
+    const imgEl = oppEl.querySelector('.avatar-img');
+    if (!imgEl) continue;
+
+    const count = (game.players[p] && game.players[p].length) || 0;
+    let state = 'normal';
+
+    // ゲーム進行中のみ判定
+    if (game.phase && game.phase !== 'init' && count > 0) {
+      if (count <= 2) {
+        // 有利: 残り2枚以下（UNO直前・優勢）
+        state = 'advantage';
+      } else if (count >= 8) {
+        // 不利: 8枚以上（ドロー累積・劣勢）
+        state = 'disadvantage';
+      } else {
+        // 通常: 3〜7枚
+        state = 'normal';
+      }
+    }
+
+    const expMap = AVATAR_EXPRESSIONS[p];
+    if (expMap) {
+      const targetSrc = expMap[state] || expMap.normal;
+      const currentEmotion = imgEl.getAttribute('data-emotion');
+      if (currentEmotion !== state) {
+        imgEl.setAttribute('data-emotion', state);
+        const testImg = new Image();
+        testImg.onload = () => {
+          imgEl.src = targetSrc;
+        };
+        testImg.onerror = () => {
+          // 画像が未配置または404の場合は通常画像へフォールバック
+          imgEl.src = expMap.normal;
+        };
+        testImg.src = targetSrc;
+      }
+    }
+  }
+}
+
 function render() {
   deckCount.textContent = game.deck.length;
 
@@ -219,6 +284,8 @@ function render() {
     const idx = parseInt(el.dataset.player, 10);
     el.classList.toggle('active', game.currentPlayer === idx);
   });
+
+  updateOpponentEmotions();
 
   unoBtn.disabled = !(game.phase === 'human' && hand.length === 1);
   passBtn.disabled = game.phase !== 'human';
