@@ -1492,12 +1492,44 @@ html, body {
   }
 
   .game-hud {
-    top: 10px;
+    top: calc(52% - 84px);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: auto;
+    max-width: 88vw;
+    z-index: 25;
+    pointer-events: none;
   }
 
   .message-bar {
-    font-size: 0.8rem;
-    padding-top: 2px;
+    display: inline-block;
+    font-size: 0.74rem;
+    font-weight: 500;
+    color: var(--thought-text, #ffffff);
+    background: rgba(6, 10, 30, 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--theme-border, rgba(0, 229, 255, 0.35));
+    border-radius: 999px;
+    padding: 3.5px 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 229, 255, 0.15);
+    white-space: nowrap;
+    text-align: center;
+    letter-spacing: 0.02em;
+    min-height: auto;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .message-bar:empty {
+    display: none;
+  }
+
+  .message-bar.important {
+    color: var(--yellow, #ffdd00);
+    border-color: var(--yellow, #ffdd00);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 14px rgba(255, 221, 0, 0.45);
+    font-weight: 700;
   }
 
   /* 縦画面では相手3名を上部〜中上部に三角形配置し、外枠の内側に美しく収める */
@@ -1604,6 +1636,26 @@ html, body {
     top: 8px;
     left: 8px;
     gap: 4px;
+  }
+
+  .theme-menu {
+    top: 8px;
+    right: 8px;
+  }
+
+  .theme-toggle-btn {
+    padding: 4px 10px;
+    font-size: 0.72rem;
+  }
+
+  .game-hud {
+    top: calc(52% - 74px);
+    max-width: 90vw;
+  }
+
+  .message-bar {
+    font-size: 0.68rem;
+    padding: 2.5px 10px;
   }
 
   .ctrl-btn {
