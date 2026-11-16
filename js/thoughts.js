@@ -235,8 +235,23 @@ function pickRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-export function showThought(playerIndex, text, duration = 3000) {
+/**
+ * 思考吹き出しの表示 (単一排他制御: 同時に複数の吹き出しが重なるのを防止)
+ */
+export function showThought(playerIndex, text, duration = 1800) {
   if (playerIndex < 1 || playerIndex > 3) return;
+
+  // 他のプレイヤーの吹き出しを即時非表示（モバイル等での画面の重なり・文字重複を100%防止）
+  for (let i = 1; i <= 3; i++) {
+    if (i !== playerIndex) {
+      const otherBubble = document.getElementById(`thought-${i}`);
+      if (otherBubble) otherBubble.classList.remove('show');
+      if (timers[i]) {
+        clearTimeout(timers[i]);
+        timers[i] = null;
+      }
+    }
+  }
 
   const bubble = document.getElementById(`thought-${playerIndex}`);
   if (!bubble) return;
@@ -274,6 +289,8 @@ export function hideAllThoughts() {
 
 /**
  * AIのターン開始時の思考決定
+ * - 特殊カード・攻撃被弾時・手札ピンチ時: 100%発言（メリハリのあるリアクション）
+ * - 平常の数字カード出し時: 毎ターン喋るとうるさいため約25%の確率でのみつぶやく
  */
 export function triggerAiTurnThought(game, idx) {
   if (idx < 1 || idx > 3) return;
@@ -281,17 +298,17 @@ export function triggerAiTurnThought(game, idx) {
   const pThoughts = THOUGHTS[idx];
   const hand = game.players[idx];
 
-  // 1. 攻撃を受けてドローしなければいけない場合
+  // 1. 攻撃を受けてドローしなければいけない場合 (100%発言)
   if (game.pendingDraw > 0) {
-    showThought(idx, pickRandom(pThoughts.draw_attacked), 2800);
+    showThought(idx, pickRandom(pThoughts.draw_attacked), 1700);
     return;
   }
 
   const valid = game.getValidPlays(idx);
 
-  // 2. 出せるカードがない場合
+  // 2. 出せるカードがない場合 (100%発言)
   if (valid.length === 0) {
-    showThought(idx, pickRandom(pThoughts.draw_frustrated), 2800);
+    showThought(idx, pickRandom(pThoughts.draw_frustrated), 1700);
     return;
   }
 
@@ -300,59 +317,77 @@ export function triggerAiTurnThought(game, idx) {
   if (!nextCard) return;
 
   if (hand.length === 2) {
-    // 次でUNOになる
-    showThought(idx, pickRandom(pThoughts.turn_few_cards), 2800);
+    // 次でUNOになる (100%発言)
+    showThought(idx, pickRandom(pThoughts.turn_few_cards), 1900);
   } else if (nextCard.value === 'wild4') {
-    showThought(idx, pickRandom(pThoughts.play_wild4), 2800);
+    showThought(idx, pickRandom(pThoughts.play_wild4), 1900);
   } else if (nextCard.value === 'wild') {
-    showThought(idx, pickRandom(pThoughts.play_wild), 2800);
+    showThought(idx, pickRandom(pThoughts.play_wild), 1800);
   } else if (nextCard.value === 'draw2') {
-    showThought(idx, pickRandom(pThoughts.play_draw2), 2800);
+    showThought(idx, pickRandom(pThoughts.play_draw2), 1800);
   } else if (nextCard.value === 'skip') {
-    showThought(idx, pickRandom(pThoughts.play_skip), 2800);
+    showThought(idx, pickRandom(pThoughts.play_skip), 1700);
   } else if (nextCard.value === 'reverse') {
-    showThought(idx, pickRandom(pThoughts.play_reverse), 2800);
+    showThought(idx, pickRandom(pThoughts.play_reverse), 1700);
   } else if (hand.length >= 8) {
-    showThought(idx, pickRandom(pThoughts.turn_many_cards), 2800);
+    // 手札過多ピンチ時 (70%発言)
+    if (Math.random() < 0.7) {
+      showThought(idx, pickRandom(pThoughts.turn_many_cards), 1700);
+    }
   } else {
-    showThought(idx, pickRandom(pThoughts.turn_normal), 2600);
+    // 平常時（通常数字カード出し）: 毎ターン出しゃばりすぎないよう約25%の確率でのみつぶやく
+    if (Math.random() < 0.25) {
+      showThought(idx, pickRandom(pThoughts.turn_normal), 1500);
+    }
   }
 }
 
 /**
- * ゲーム開始時の挨拶
+ * ゲーム開始時の挨拶 (重ならないよう1人ずつ順次発言)
  */
 export function triggerGameStartThoughts() {
-  setTimeout(() => showThought(1, pickRandom(THOUGHTS[1].start), 2500), 500);
-  setTimeout(() => showThought(2, pickRandom(THOUGHTS[2].start), 2500), 1200);
-  setTimeout(() => showThought(3, pickRandom(THOUGHTS[3].start), 2500), 1900);
+  hideAllThoughts();
+  setTimeout(() => showThought(1, pickRandom(THOUGHTS[1].start), 1400), 400);
+  setTimeout(() => showThought(2, pickRandom(THOUGHTS[2].start), 1400), 2000);
+  setTimeout(() => showThought(3, pickRandom(THOUGHTS[3].start), 1400), 3600);
 }
 
 /**
- * 誰かがUNO（残り1枚）になったときの他プレイヤーのリアクション
+ * 誰かがUNO（残り1枚）になったときのリアクション (順番リレーで重なり防止)
  */
 export function triggerUnoReaction(unoPlayerIndex) {
-  for (let i = 1; i <= 3; i++) {
-    if (i === unoPlayerIndex) {
-      showThought(i, pickRandom(THOUGHTS[i].uno), 3200);
-    } else {
-      setTimeout(() => {
-        showThought(i, pickRandom(THOUGHTS[i].watch_uno), 2600);
-      }, Math.random() * 400 + 200);
-    }
+  // まずUNOを言った本人が発言 (1.8秒)
+  if (unoPlayerIndex >= 1 && unoPlayerIndex <= 3) {
+    showThought(unoPlayerIndex, pickRandom(THOUGHTS[unoPlayerIndex].uno), 1800);
+  }
+
+  // 1.9秒後、他プレイヤーの誰か1名が代表して驚きリアクション
+  const opponents = [1, 2, 3].filter(i => i !== unoPlayerIndex);
+  if (opponents.length > 0) {
+    const reactor = opponents[Math.floor(Math.random() * opponents.length)];
+    setTimeout(() => {
+      showThought(reactor, pickRandom(THOUGHTS[reactor].watch_uno), 1800);
+    }, 1900);
   }
 }
 
 /**
- * ゲーム終了時のリアクション
+ * ゲーム終了時のリアクション (勝者→敗者代表の順次発言)
  */
 export function triggerGameOverThoughts(winnerIndex) {
-  for (let i = 1; i <= 3; i++) {
-    if (i === winnerIndex) {
-      setTimeout(() => showThought(i, pickRandom(THOUGHTS[i].win), 4500), 300);
-    } else {
-      setTimeout(() => showThought(i, pickRandom(THOUGHTS[i].lose), 4000), 600 + Math.random() * 300);
+  if (winnerIndex >= 1 && winnerIndex <= 3) {
+    // AI勝者の喜び (0.3s 〜 2.3s)
+    setTimeout(() => showThought(winnerIndex, pickRandom(THOUGHTS[winnerIndex].win), 2000), 300);
+    // その後、敗者代表がコメント (2.5s 〜 4.3s)
+    const losers = [1, 2, 3].filter(i => i !== winnerIndex);
+    if (losers.length > 0) {
+      const loser = losers[Math.floor(Math.random() * losers.length)];
+      setTimeout(() => showThought(loser, pickRandom(THOUGHTS[loser].lose), 1800), 2500);
     }
+  } else {
+    // 人間勝者時: AIの1人が敗北コメント (0.5s 〜 2.5s)
+    const loser = Math.floor(Math.random() * 3) + 1;
+    setTimeout(() => showThought(loser, pickRandom(THOUGHTS[loser].lose), 2000), 500);
   }
 }
 
@@ -361,5 +396,5 @@ export function triggerGameOverThoughts(winnerIndex) {
  */
 export function triggerHumanThinkingThought() {
   const randomAi = Math.floor(Math.random() * 3) + 1;
-  showThought(randomAi, pickRandom(THOUGHTS[randomAi].human_thinking), 2500);
+  showThought(randomAi, pickRandom(THOUGHTS[randomAi].human_thinking), 1800);
 }

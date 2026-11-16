@@ -86,13 +86,16 @@ game.onTurnStart = (playerIndex) => {
     humanThinkingTimer = null;
   }
 
+  // ターン交代時に前ターンの吹き出しを確実にクリア
+  hideAllThoughts();
+
   if (playerIndex === 0) {
-    // プレイヤー（あなた）が4秒以上長考したら、AIがランダムにつぶやく
+    // プレイヤー（あなた）が4.5秒以上長考したら、AIがランダムにつぶやく
     humanThinkingTimer = setTimeout(() => {
       if (game.phase === 'human' && game.winner === null) {
         triggerHumanThinkingThought();
       }
-    }, 4000);
+    }, 4500);
   } else {
     triggerAiTurnThought(game, playerIndex);
   }

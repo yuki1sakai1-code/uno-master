@@ -1548,41 +1548,43 @@ html, body {
 
   /* 思考吹き出し */
   .thought-bubble {
-    font-size: 0.68rem;
-    padding: 5px 9px;
-    border-radius: 12px;
-    max-width: 130px;
+    font-size: 0.66rem;
+    padding: 4px 8px;
+    border-radius: 10px;
+    max-width: 114px;
+    line-height: 1.25;
     white-space: normal;
+    z-index: 45;
   }
   .thought-icon {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
   }
   .opponent-left .thought-bubble {
-    left: calc(100% + 6px);
+    left: calc(100% + 5px);
     top: -2px;
   }
-  /* プレイヤーB (上部) の吹き出し: アバター直下に中央配置し、テーマメニューや他プレイヤーとの重なりを防止 */
+  /* プレイヤーB (上部) の吹き出し: アバター直下に中央配置 */
   .opponent-top .thought-bubble {
     left: 50%;
     right: auto;
-    top: calc(100% + 8px);
+    top: calc(100% + 5px);
     transform: translateX(-50%);
     transform-origin: top center;
   }
   .opponent-top .thought-bubble::before {
     left: 50%;
     right: auto;
-    top: -6px;
+    top: -5px;
     transform: translateX(-50%);
   }
   .opponent-top .thought-bubble::after {
     left: 50%;
     right: auto;
-    top: -11px;
+    top: -9px;
     transform: translateX(-50%);
   }
   .opponent-right .thought-bubble {
-    right: calc(100% + 6px);
+    right: calc(100% + 5px);
     top: -2px;
   }
 
@@ -1637,5 +1639,12 @@ html, body {
   .player-actions {
     margin-top: 6px;
     gap: 10px;
+  }
+
+  .thought-bubble {
+    font-size: 0.62rem;
+    padding: 3px 6px;
+    border-radius: 9px;
+    max-width: 102px;
   }
 }
