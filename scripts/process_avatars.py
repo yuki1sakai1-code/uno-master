@@ -87,3 +87,4 @@ def process_all_avatars():
 
 if __name__ == '__main__':
     process_all_avatars()
+

@@ -376,14 +376,9 @@ export function triggerUnoReaction(unoPlayerIndex) {
  */
 export function triggerGameOverThoughts(winnerIndex) {
   if (winnerIndex >= 1 && winnerIndex <= 3) {
-    // AI勝者の喜び (0.3s 〜 2.3s)
-    setTimeout(() => showThought(winnerIndex, pickRandom(THOUGHTS[winnerIndex].win), 2000), 300);
-    // その後、敗者代表がコメント (2.5s 〜 4.3s)
-    const losers = [1, 2, 3].filter(i => i !== winnerIndex);
-    if (losers.length > 0) {
-      const loser = losers[Math.floor(Math.random() * losers.length)];
-      setTimeout(() => showThought(loser, pickRandom(THOUGHTS[loser].lose), 1800), 2500);
-    }
+    // 勝利したAIプレイヤーの発言演出
+    const victoryQuote = winnerIndex === 3 ? '私の勝ちね' : '俺の勝ちだ。';
+    setTimeout(() => showThought(winnerIndex, victoryQuote, 2200), 200);
   } else {
     // 人間勝者時: AIの1人が敗北コメント (0.5s 〜 2.5s)
     const loser = Math.floor(Math.random() * 3) + 1;

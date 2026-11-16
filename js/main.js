@@ -52,6 +52,8 @@ let lastTopCardKey = null;
 startBtn.addEventListener('click', startGame);
 restartBtn.addEventListener('click', () => {
   resultModal.classList.add('hidden');
+  const cutinEl = $('#winner-cutin');
+  if (cutinEl) cutinEl.classList.add('hidden');
   startGame();
 });
 
@@ -105,6 +107,24 @@ game.onUnoCalled = (playerIndex) => {
   triggerUnoReaction(playerIndex);
 };
 
+const WINNER_VICTORY_DATA = {
+  1: { // プレイヤーA
+    avatar: 'assets/avatars/jockey-a-win.png',
+    quote: '俺の勝ちだ。',
+    name: 'プレイヤーA'
+  },
+  2: { // プレイヤーB
+    avatar: 'assets/avatars/jockey-b-win.png',
+    quote: '俺の勝ちだ。',
+    name: 'プレイヤーB'
+  },
+  3: { // プレイヤーC
+    avatar: 'assets/avatars/jockey-c-win.png',
+    quote: '私の勝ちね',
+    name: 'プレイヤーC'
+  }
+};
+
 game.onGameOver = (winnerIndex) => {
   if (humanThinkingTimer) clearTimeout(humanThinkingTimer);
   triggerGameOverThoughts(winnerIndex);
@@ -113,6 +133,22 @@ game.onGameOver = (winnerIndex) => {
   resultMessage.textContent = won
     ? 'おめでとう！最高の勝利。'
     : `${PLAYER_NAMES[winnerIndex]} の勝利… 次はリベンジ。`;
+
+  // 自分以外のプレイヤーが勝利した時の演出設定 (笑顔画像 & 吹き出し)
+  const cutinEl = $('#winner-cutin');
+  if (cutinEl) {
+    if (!won && WINNER_VICTORY_DATA[winnerIndex]) {
+      const data = WINNER_VICTORY_DATA[winnerIndex];
+      const imgEl = $('#winner-avatar-img');
+      const textEl = $('#winner-speech-text');
+      if (imgEl) imgEl.src = data.avatar;
+      if (textEl) textEl.textContent = data.quote;
+      cutinEl.classList.remove('hidden');
+    } else {
+      cutinEl.classList.add('hidden');
+    }
+  }
+
   setTimeout(() => resultModal.classList.remove('hidden'), 900);
 };
 

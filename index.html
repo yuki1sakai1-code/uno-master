@@ -141,6 +141,20 @@
     <div id="result-modal" class="modal hidden">
       <div class="modal-content result-content">
         <h2 id="result-title"></h2>
+
+        <!-- 勝者キャラクターの演出 (AI勝利時に表示) -->
+        <div id="winner-cutin" class="winner-cutin hidden">
+          <div class="winner-character-wrap">
+            <div class="winner-avatar-frame">
+              <img id="winner-avatar-img" class="winner-avatar-img" src="" alt="勝者">
+            </div>
+            <div class="winner-speech-bubble" id="winner-speech-bubble">
+              <span class="winner-speech-icon">💬</span>
+              <span id="winner-speech-text" class="winner-speech-text"></span>
+            </div>
+          </div>
+        </div>
+
         <p id="result-message"></p>
         <button id="restart-btn" class="start-btn small">
           <span class="play-icon">▶</span>

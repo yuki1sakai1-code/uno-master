@@ -1213,12 +1213,8 @@
   }
   function triggerGameOverThoughts(winnerIndex) {
     if (winnerIndex >= 1 && winnerIndex <= 3) {
-      setTimeout(() => showThought(winnerIndex, pickRandom(THOUGHTS[winnerIndex].win), 2e3), 300);
-      const losers = [1, 2, 3].filter((i) => i !== winnerIndex);
-      if (losers.length > 0) {
-        const loser = losers[Math.floor(Math.random() * losers.length)];
-        setTimeout(() => showThought(loser, pickRandom(THOUGHTS[loser].lose), 1800), 2500);
-      }
+      const victoryQuote = winnerIndex === 3 ? "\u79C1\u306E\u52DD\u3061\u306D" : "\u4FFA\u306E\u52DD\u3061\u3060\u3002";
+      setTimeout(() => showThought(winnerIndex, victoryQuote, 2200), 200);
     } else {
       const loser = Math.floor(Math.random() * 3) + 1;
       setTimeout(() => showThought(loser, pickRandom(THOUGHTS[loser].lose), 2e3), 500);
@@ -1264,6 +1260,8 @@
   startBtn.addEventListener("click", startGame);
   restartBtn.addEventListener("click", () => {
     resultModal.classList.add("hidden");
+    const cutinEl = $("#winner-cutin");
+    if (cutinEl) cutinEl.classList.add("hidden");
     startGame();
   });
   drawPile.addEventListener("click", () => game.humanDraw());
@@ -1305,12 +1303,45 @@
   game.onUnoCalled = (playerIndex) => {
     triggerUnoReaction(playerIndex);
   };
+  var WINNER_VICTORY_DATA = {
+    1: {
+      // プレイヤーA
+      avatar: "assets/avatars/jockey-a-win.png",
+      quote: "\u4FFA\u306E\u52DD\u3061\u3060\u3002",
+      name: "\u30D7\u30EC\u30A4\u30E4\u30FCA"
+    },
+    2: {
+      // プレイヤーB
+      avatar: "assets/avatars/jockey-b-win.png",
+      quote: "\u4FFA\u306E\u52DD\u3061\u3060\u3002",
+      name: "\u30D7\u30EC\u30A4\u30E4\u30FCB"
+    },
+    3: {
+      // プレイヤーC
+      avatar: "assets/avatars/jockey-c-win.png",
+      quote: "\u79C1\u306E\u52DD\u3061\u306D",
+      name: "\u30D7\u30EC\u30A4\u30E4\u30FCC"
+    }
+  };
   game.onGameOver = (winnerIndex) => {
     if (humanThinkingTimer) clearTimeout(humanThinkingTimer);
     triggerGameOverThoughts(winnerIndex);
     const won = winnerIndex === 0;
     resultTitle.textContent = won ? "YOU WIN!" : "GAME OVER";
     resultMessage.textContent = won ? "\u304A\u3081\u3067\u3068\u3046\uFF01\u6700\u9AD8\u306E\u52DD\u5229\u3002" : `${PLAYER_NAMES[winnerIndex]} \u306E\u52DD\u5229\u2026 \u6B21\u306F\u30EA\u30D9\u30F3\u30B8\u3002`;
+    const cutinEl = $("#winner-cutin");
+    if (cutinEl) {
+      if (!won && WINNER_VICTORY_DATA[winnerIndex]) {
+        const data = WINNER_VICTORY_DATA[winnerIndex];
+        const imgEl = $("#winner-avatar-img");
+        const textEl = $("#winner-speech-text");
+        if (imgEl) imgEl.src = data.avatar;
+        if (textEl) textEl.textContent = data.quote;
+        cutinEl.classList.remove("hidden");
+      } else {
+        cutinEl.classList.add("hidden");
+      }
+    }
     setTimeout(() => resultModal.classList.remove("hidden"), 900);
   };
   function startGame() {
