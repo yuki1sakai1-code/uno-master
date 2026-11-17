@@ -115,21 +115,20 @@
   text-shadow: 0 0 8px var(--avatar-active-color, #00ffaa);
 }
 
-/* ===== Thought Bubbles — Theme Aware ===== */
+/* ===== Thought Bubbles — White Capsule with Neon Theme Glow ===== */
 .thought-bubble {
-  border-radius: 12px;
-  border: 1.5px solid var(--table-stroke, #00d4ff);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.7), 0 0 16px var(--table-stroke-glow, rgba(0, 212, 255, 0.45));
-  background: var(--table-fill-mid, rgba(6, 18, 38, 0.94));
-  color: var(--thought-text, #ffffff);
-  backdrop-filter: blur(10px);
+  border: 2px solid var(--table-stroke, #00f0ff);
+  box-shadow: 0 0 14px var(--table-stroke-glow, rgba(0, 240, 255, 0.8)), 0 0 28px var(--table-stroke-glow, rgba(0, 240, 255, 0.4)), 0 4px 16px rgba(0, 0, 0, 0.35);
+  background: #ffffff;
+  color: #0b1528;
 }
 
 .thought-bubble::before,
 .thought-bubble::after {
   border-radius: 50%;
-  border: 1.5px solid var(--table-stroke, #00d4ff);
-  background: var(--table-fill-mid, rgba(6, 18, 38, 0.94));
+  border: 1.5px solid var(--table-stroke, #00f0ff);
+  background: #ffffff;
+  box-shadow: 0 0 8px var(--table-stroke-glow, rgba(0, 240, 255, 0.7));
 }
 
 
