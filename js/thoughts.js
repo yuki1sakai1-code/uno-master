@@ -238,7 +238,7 @@ function pickRandom(arr) {
 /**
  * 思考吹き出しの表示 (単一排他制御: 同時に複数の吹き出しが重なるのを防止)
  */
-export function showThought(playerIndex, text, duration = 1800) {
+export function showThought(playerIndex, text, duration = 2300) {
   if (playerIndex < 1 || playerIndex > 3) return;
 
   // 他のプレイヤーの吹き出しを即時非表示（モバイル等での画面の重なり・文字重複を100%防止）
@@ -300,7 +300,7 @@ export function triggerAiTurnThought(game, idx) {
 
   // 1. 攻撃を受けてドローしなければいけない場合 (100%発言)
   if (game.pendingDraw > 0) {
-    showThought(idx, pickRandom(pThoughts.draw_attacked), 1700);
+    showThought(idx, pickRandom(pThoughts.draw_attacked), 2200);
     return;
   }
 
@@ -308,7 +308,7 @@ export function triggerAiTurnThought(game, idx) {
 
   // 2. 出せるカードがない場合 (100%発言)
   if (valid.length === 0) {
-    showThought(idx, pickRandom(pThoughts.draw_frustrated), 1700);
+    showThought(idx, pickRandom(pThoughts.draw_frustrated), 2200);
     return;
   }
 
@@ -318,26 +318,26 @@ export function triggerAiTurnThought(game, idx) {
 
   if (hand.length === 2) {
     // 次でUNOになる (100%発言)
-    showThought(idx, pickRandom(pThoughts.turn_few_cards), 1900);
+    showThought(idx, pickRandom(pThoughts.turn_few_cards), 2400);
   } else if (nextCard.value === 'wild4') {
-    showThought(idx, pickRandom(pThoughts.play_wild4), 1900);
+    showThought(idx, pickRandom(pThoughts.play_wild4), 2400);
   } else if (nextCard.value === 'wild') {
-    showThought(idx, pickRandom(pThoughts.play_wild), 1800);
+    showThought(idx, pickRandom(pThoughts.play_wild), 2300);
   } else if (nextCard.value === 'draw2') {
-    showThought(idx, pickRandom(pThoughts.play_draw2), 1800);
+    showThought(idx, pickRandom(pThoughts.play_draw2), 2300);
   } else if (nextCard.value === 'skip') {
-    showThought(idx, pickRandom(pThoughts.play_skip), 1700);
+    showThought(idx, pickRandom(pThoughts.play_skip), 2200);
   } else if (nextCard.value === 'reverse') {
-    showThought(idx, pickRandom(pThoughts.play_reverse), 1700);
+    showThought(idx, pickRandom(pThoughts.play_reverse), 2200);
   } else if (hand.length >= 8) {
     // 手札過多ピンチ時 (70%発言)
     if (Math.random() < 0.7) {
-      showThought(idx, pickRandom(pThoughts.turn_many_cards), 1700);
+      showThought(idx, pickRandom(pThoughts.turn_many_cards), 2200);
     }
   } else {
     // 平常時（通常数字カード出し）: 毎ターン出しゃばりすぎないよう約25%の確率でのみつぶやく
     if (Math.random() < 0.25) {
-      showThought(idx, pickRandom(pThoughts.turn_normal), 1500);
+      showThought(idx, pickRandom(pThoughts.turn_normal), 2000);
     }
   }
 }
@@ -347,27 +347,27 @@ export function triggerAiTurnThought(game, idx) {
  */
 export function triggerGameStartThoughts() {
   hideAllThoughts();
-  setTimeout(() => showThought(1, pickRandom(THOUGHTS[1].start), 1400), 400);
-  setTimeout(() => showThought(2, pickRandom(THOUGHTS[2].start), 1400), 2000);
-  setTimeout(() => showThought(3, pickRandom(THOUGHTS[3].start), 1400), 3600);
+  setTimeout(() => showThought(1, pickRandom(THOUGHTS[1].start), 1900), 400);
+  setTimeout(() => showThought(2, pickRandom(THOUGHTS[2].start), 1900), 2500);
+  setTimeout(() => showThought(3, pickRandom(THOUGHTS[3].start), 1900), 4600);
 }
 
 /**
  * 誰かがUNO（残り1枚）になったときのリアクション (順番リレーで重なり防止)
  */
 export function triggerUnoReaction(unoPlayerIndex) {
-  // まずUNOを言った本人が発言 (1.8秒)
+  // まずUNOを言った本人が発言 (2.3秒)
   if (unoPlayerIndex >= 1 && unoPlayerIndex <= 3) {
-    showThought(unoPlayerIndex, pickRandom(THOUGHTS[unoPlayerIndex].uno), 1800);
+    showThought(unoPlayerIndex, pickRandom(THOUGHTS[unoPlayerIndex].uno), 2300);
   }
 
-  // 1.9秒後、他プレイヤーの誰か1名が代表して驚きリアクション
+  // 2.4秒後、他プレイヤーの誰か1名が代表して驚きリアクション (2.3秒)
   const opponents = [1, 2, 3].filter(i => i !== unoPlayerIndex);
   if (opponents.length > 0) {
     const reactor = opponents[Math.floor(Math.random() * opponents.length)];
     setTimeout(() => {
-      showThought(reactor, pickRandom(THOUGHTS[reactor].watch_uno), 1800);
-    }, 1900);
+      showThought(reactor, pickRandom(THOUGHTS[reactor].watch_uno), 2300);
+    }, 2400);
   }
 }
 
@@ -378,11 +378,11 @@ export function triggerGameOverThoughts(winnerIndex) {
   if (winnerIndex >= 1 && winnerIndex <= 3) {
     // 勝利したAIプレイヤーの発言演出
     const victoryQuote = winnerIndex === 3 ? '私の勝ちね' : '俺の勝ちだ。';
-    setTimeout(() => showThought(winnerIndex, victoryQuote, 2200), 200);
+    setTimeout(() => showThought(winnerIndex, victoryQuote, 2700), 200);
   } else {
-    // 人間勝者時: AIの1人が敗北コメント (0.5s 〜 2.5s)
+    // 人間勝者時: AIの1人が敗北コメント (0.5s 〜 3.0s)
     const loser = Math.floor(Math.random() * 3) + 1;
-    setTimeout(() => showThought(loser, pickRandom(THOUGHTS[loser].lose), 2000), 500);
+    setTimeout(() => showThought(loser, pickRandom(THOUGHTS[loser].lose), 2500), 500);
   }
 }
 
@@ -391,5 +391,5 @@ export function triggerGameOverThoughts(winnerIndex) {
  */
 export function triggerHumanThinkingThought() {
   const randomAi = Math.floor(Math.random() * 3) + 1;
-  showThought(randomAi, pickRandom(THOUGHTS[randomAi].human_thinking), 1800);
+  showThought(randomAi, pickRandom(THOUGHTS[randomAi].human_thinking), 2300);
 }

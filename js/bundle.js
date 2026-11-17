@@ -1117,7 +1117,7 @@
     if (!arr || arr.length === 0) return "";
     return arr[Math.floor(Math.random() * arr.length)];
   }
-  function showThought(playerIndex, text, duration = 1800) {
+  function showThought(playerIndex, text, duration = 2300) {
     if (playerIndex < 1 || playerIndex > 3) return;
     for (let i = 1; i <= 3; i++) {
       if (i !== playerIndex) {
@@ -1161,68 +1161,68 @@
     const pThoughts = THOUGHTS[idx];
     const hand = game2.players[idx];
     if (game2.pendingDraw > 0) {
-      showThought(idx, pickRandom(pThoughts.draw_attacked), 1700);
+      showThought(idx, pickRandom(pThoughts.draw_attacked), 2200);
       return;
     }
     const valid = game2.getValidPlays(idx);
     if (valid.length === 0) {
-      showThought(idx, pickRandom(pThoughts.draw_frustrated), 1700);
+      showThought(idx, pickRandom(pThoughts.draw_frustrated), 2200);
       return;
     }
     const nextCard = game2.pickAiCard(valid, hand);
     if (!nextCard) return;
     if (hand.length === 2) {
-      showThought(idx, pickRandom(pThoughts.turn_few_cards), 1900);
+      showThought(idx, pickRandom(pThoughts.turn_few_cards), 2400);
     } else if (nextCard.value === "wild4") {
-      showThought(idx, pickRandom(pThoughts.play_wild4), 1900);
+      showThought(idx, pickRandom(pThoughts.play_wild4), 2400);
     } else if (nextCard.value === "wild") {
-      showThought(idx, pickRandom(pThoughts.play_wild), 1800);
+      showThought(idx, pickRandom(pThoughts.play_wild), 2300);
     } else if (nextCard.value === "draw2") {
-      showThought(idx, pickRandom(pThoughts.play_draw2), 1800);
+      showThought(idx, pickRandom(pThoughts.play_draw2), 2300);
     } else if (nextCard.value === "skip") {
-      showThought(idx, pickRandom(pThoughts.play_skip), 1700);
+      showThought(idx, pickRandom(pThoughts.play_skip), 2200);
     } else if (nextCard.value === "reverse") {
-      showThought(idx, pickRandom(pThoughts.play_reverse), 1700);
+      showThought(idx, pickRandom(pThoughts.play_reverse), 2200);
     } else if (hand.length >= 8) {
       if (Math.random() < 0.7) {
-        showThought(idx, pickRandom(pThoughts.turn_many_cards), 1700);
+        showThought(idx, pickRandom(pThoughts.turn_many_cards), 2200);
       }
     } else {
       if (Math.random() < 0.25) {
-        showThought(idx, pickRandom(pThoughts.turn_normal), 1500);
+        showThought(idx, pickRandom(pThoughts.turn_normal), 2e3);
       }
     }
   }
   function triggerGameStartThoughts() {
     hideAllThoughts();
-    setTimeout(() => showThought(1, pickRandom(THOUGHTS[1].start), 1400), 400);
-    setTimeout(() => showThought(2, pickRandom(THOUGHTS[2].start), 1400), 2e3);
-    setTimeout(() => showThought(3, pickRandom(THOUGHTS[3].start), 1400), 3600);
+    setTimeout(() => showThought(1, pickRandom(THOUGHTS[1].start), 1900), 400);
+    setTimeout(() => showThought(2, pickRandom(THOUGHTS[2].start), 1900), 2500);
+    setTimeout(() => showThought(3, pickRandom(THOUGHTS[3].start), 1900), 4600);
   }
   function triggerUnoReaction(unoPlayerIndex) {
     if (unoPlayerIndex >= 1 && unoPlayerIndex <= 3) {
-      showThought(unoPlayerIndex, pickRandom(THOUGHTS[unoPlayerIndex].uno), 1800);
+      showThought(unoPlayerIndex, pickRandom(THOUGHTS[unoPlayerIndex].uno), 2300);
     }
     const opponents = [1, 2, 3].filter((i) => i !== unoPlayerIndex);
     if (opponents.length > 0) {
       const reactor = opponents[Math.floor(Math.random() * opponents.length)];
       setTimeout(() => {
-        showThought(reactor, pickRandom(THOUGHTS[reactor].watch_uno), 1800);
-      }, 1900);
+        showThought(reactor, pickRandom(THOUGHTS[reactor].watch_uno), 2300);
+      }, 2400);
     }
   }
   function triggerGameOverThoughts(winnerIndex) {
     if (winnerIndex >= 1 && winnerIndex <= 3) {
       const victoryQuote = winnerIndex === 3 ? "\u79C1\u306E\u52DD\u3061\u306D" : "\u4FFA\u306E\u52DD\u3061\u3060\u3002";
-      setTimeout(() => showThought(winnerIndex, victoryQuote, 2200), 200);
+      setTimeout(() => showThought(winnerIndex, victoryQuote, 2700), 200);
     } else {
       const loser = Math.floor(Math.random() * 3) + 1;
-      setTimeout(() => showThought(loser, pickRandom(THOUGHTS[loser].lose), 2e3), 500);
+      setTimeout(() => showThought(loser, pickRandom(THOUGHTS[loser].lose), 2500), 500);
     }
   }
   function triggerHumanThinkingThought() {
     const randomAi = Math.floor(Math.random() * 3) + 1;
-    showThought(randomAi, pickRandom(THOUGHTS[randomAi].human_thinking), 1800);
+    showThought(randomAi, pickRandom(THOUGHTS[randomAi].human_thinking), 2300);
   }
 
   // js/main.js
