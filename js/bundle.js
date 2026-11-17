@@ -1120,13 +1120,17 @@
   function showThought(playerIndex, text, duration = 2300) {
     if (playerIndex < 1 || playerIndex > 3) return;
     for (let i = 1; i <= 3; i++) {
+      const opp = document.querySelector(`.opponent[data-player="${i}"]`);
       if (i !== playerIndex) {
         const otherBubble = document.getElementById(`thought-${i}`);
         if (otherBubble) otherBubble.classList.remove("show");
+        if (opp) opp.classList.remove("speaking");
         if (timers[i]) {
           clearTimeout(timers[i]);
           timers[i] = null;
         }
+      } else if (opp) {
+        opp.classList.add("speaking");
       }
     }
     const bubble = document.getElementById(`thought-${playerIndex}`);
@@ -1143,6 +1147,8 @@
     }
     timers[playerIndex] = setTimeout(() => {
       bubble.classList.remove("show");
+      const opp = bubble.closest(".opponent");
+      if (opp) opp.classList.remove("speaking");
       timers[playerIndex] = null;
     }, duration);
   }
@@ -1150,6 +1156,8 @@
     for (let i = 1; i <= 3; i++) {
       const bubble = document.getElementById(`thought-${i}`);
       if (bubble) bubble.classList.remove("show");
+      const opp = document.querySelector(`.opponent[data-player="${i}"]`);
+      if (opp) opp.classList.remove("speaking");
       if (timers[i]) {
         clearTimeout(timers[i]);
         timers[i] = null;

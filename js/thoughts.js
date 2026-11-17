@@ -243,13 +243,18 @@ export function showThought(playerIndex, text, duration = 2300) {
 
   // 他のプレイヤーの吹き出しを即時非表示（モバイル等での画面の重なり・文字重複を100%防止）
   for (let i = 1; i <= 3; i++) {
+    const opp = document.querySelector(`.opponent[data-player="${i}"]`);
     if (i !== playerIndex) {
       const otherBubble = document.getElementById(`thought-${i}`);
       if (otherBubble) otherBubble.classList.remove('show');
+      if (opp) opp.classList.remove('speaking');
       if (timers[i]) {
         clearTimeout(timers[i]);
         timers[i] = null;
       }
+    } else if (opp) {
+      // 発言中のプレイヤーのアバター・吹き出しを最前面（z-index上位）に設定
+      opp.classList.add('speaking');
     }
   }
 
@@ -272,6 +277,8 @@ export function showThought(playerIndex, text, duration = 2300) {
 
   timers[playerIndex] = setTimeout(() => {
     bubble.classList.remove('show');
+    const opp = bubble.closest('.opponent');
+    if (opp) opp.classList.remove('speaking');
     timers[playerIndex] = null;
   }, duration);
 }
@@ -280,6 +287,8 @@ export function hideAllThoughts() {
   for (let i = 1; i <= 3; i++) {
     const bubble = document.getElementById(`thought-${i}`);
     if (bubble) bubble.classList.remove('show');
+    const opp = document.querySelector(`.opponent[data-player="${i}"]`);
+    if (opp) opp.classList.remove('speaking');
     if (timers[i]) {
       clearTimeout(timers[i]);
       timers[i] = null;

@@ -183,6 +183,12 @@ html, body {
   z-index: 5;
 }
 
+/* 発言中（吹き出し表示中）のプレイヤーは全アバター・人物レイヤーより最前面に配置 */
+.opponent.speaking,
+.opponent:has(.thought-bubble.show) {
+  z-index: 80 !important;
+}
+
 .opponent-left  { left: 9%;  top: 50%; transform: translateY(-50%); }
 .opponent-top   { top: 7%;   left: 50%; transform: translateX(-50%); }
 .opponent-right { right: 16%; top: 50%; transform: translateY(-50%); }
@@ -270,7 +276,7 @@ html, body {
   opacity: 0;
   transform: scale(0.6);
   pointer-events: none;
-  z-index: 35;
+  z-index: 85;
   background: #ffffff;
   border: 2px solid var(--thought-border, #00f0ff);
   box-shadow: 0 0 14px var(--thought-glow, rgba(0, 240, 255, 0.8)), 0 0 28px var(--thought-glow-soft, rgba(0, 240, 255, 0.4)), 0 4px 16px rgba(0, 0, 0, 0.35);
@@ -1711,7 +1717,7 @@ html, body {
     white-space: normal;
     word-break: break-word;
     overflow-wrap: break-word;
-    z-index: 45;
+    z-index: 85;
   }
   .thought-icon {
     display: none;
